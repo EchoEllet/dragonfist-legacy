@@ -1,0 +1,15 @@
+{
+  "name": "dragonfist_legacy:shifu_dojo/start_pool",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "dragonfist_legacy:shifu_dojo",
+        "processors": "minecraft:empty",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}

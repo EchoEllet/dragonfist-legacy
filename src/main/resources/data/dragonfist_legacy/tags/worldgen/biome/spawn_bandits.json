@@ -1,0 +1,78 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:is_badlands",
+    "#minecraft:is_forest",
+    "#minecraft:is_jungle",
+    "#minecraft:is_mountain",
+    "#minecraft:is_savanna",
+    "#minecraft:is_hill",
+    "minecraft:plains",
+    "minecraft:beach",
+    "minecraft:grove",
+    "minecraft:lush_caves",
+    "minecraft:mushroom_fields",
+    "minecraft:old_growth_pine_taiga",
+    "minecraft:old_growth_spruce_taiga",
+    "minecraft:snowy_beach",
+    "minecraft:stony_shore",
+    "minecraft:sunflower_plains",
+    "minecraft:mangrove_swamp",
+    "minecraft:snowy_plains",
+    "minecraft:snowy_taiga",
+    "minecraft:swamp",
+    "minecraft:taiga",
+    "minecraft:ice_spikes",
+    "minecraft:snowy_slopes",
+    "minecraft:jagged_peaks",
+    "minecraft:frozen_peaks",
+    {
+      "id": "#c:is_snowy",
+      "required": false
+    },
+    {
+      "id": "#c:is_plains",
+      "required": false
+    },
+    {
+      "id": "#c:is_swamp",
+      "required": false
+    },
+    {
+      "id": "#c:is_mountain",
+      "required": false
+    },
+    {
+      "id": "#c:is_windswept",
+      "required": false
+    },
+    {
+      "id": "#c:is_savanna",
+      "required": false
+    },
+    {
+      "id": "#c:is_badlands",
+      "required": false
+    },
+    {
+      "id": "#c:is_forest",
+      "required": false
+    },
+    {
+      "id": "#c:is_jungle",
+      "required": false
+    },
+    {
+      "id": "#c:is_hill",
+      "required": false
+    },
+    {
+      "id": "#c:is_mushroom",
+      "required": false
+    },
+    {
+      "id": "#c:is_floral",
+      "required": false
+    }
+  ]
+}

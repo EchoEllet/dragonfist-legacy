@@ -1,0 +1,18 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "#dragonfist_legacy:spawn_bandits",
+  "spawners": [
+    {
+      "type": "dragonfist_legacy:bandit_regular",
+      "weight": 16,
+      "minCount": 1,
+      "maxCount": 6
+    },
+    {
+      "type": "dragonfist_legacy:bandit_enforcer",
+      "weight": 8,
+      "minCount": 1,
+      "maxCount": 3
+    }
+  ]
+}

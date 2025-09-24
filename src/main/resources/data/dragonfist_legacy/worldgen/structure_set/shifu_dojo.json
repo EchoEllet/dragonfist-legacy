@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "dragonfist_legacy:shifu_dojo",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 1394767020,
+    "spacing": 120,
+    "separation": 60
+  }
+}

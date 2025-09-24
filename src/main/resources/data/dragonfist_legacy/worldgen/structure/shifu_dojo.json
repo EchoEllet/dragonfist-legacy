@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:jigsaw",
+  "start_pool": "dragonfist_legacy:shifu_dojo/start_pool",
+  "size": 1,
+  "max_distance_from_center": 80,
+  "biomes": "#dragonfist_legacy:has_structure/shifu_dojo",
+  "step": "surface_structures",
+  "terrain_adaptation": "beard_thin",
+  "start_height": {
+    "absolute": 0
+  },
+  "project_start_to_heightmap": "WORLD_SURFACE_WG",
+  "use_expansion_hack": false,
+  "liquid_settings": "apply_waterlogging",
+  "spawn_overrides": {
+    "creature": {
+      "bounding_box": "piece",
+      "spawns": [
+        {
+          "type": "dragonfist_legacy:shifu",
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 1
+        }
+      ]
+    }
+  },
+  "pool_aliases": []
+}

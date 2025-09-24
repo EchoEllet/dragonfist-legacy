@@ -1,0 +1,310 @@
+{
+  "model": "epicfight:entity/biped",
+  "armature": "epicfight:entity/biped",
+  "renderer": "player",
+  "isHumanoid": true,
+  "faction": "villager",
+  "hit_sound": "epicfight:entity.hit.blunt",
+  "swing_sound": "epicfight:entity.weapon.whoosh",
+  "hit_particle": "epicfight:hit_blunt",
+  "attributes": {
+    "stun_armor": 20.0,
+    "impact": 1.5,
+    "armor_negation": 1.0,
+    "max_strikes": 2,
+    "chasing_speed": 1.5,
+    "attack_speed": 5.0,
+    "scale": 1.0
+  },
+  "default_livingmotions": {
+    "fall": "epicfight:biped/living/fall",
+    "death": "epicfight:biped/living/death",
+    "idle": "epicfight:biped/living/idle",
+    "float": "epicfight:biped/living/float",
+    "chase": "epicfight:biped/living/run",
+    "mount": "epicfight:biped/living/mount",
+    "walk": "epicfight:biped/living/walk"
+  },
+  "humanoid_weapon_motions": [
+    {
+      "weapon_categories": [ "uchigatana" ],
+      "style": "two_hand",
+      "livingmotions": {
+        "idle": "epicfight:biped/living/hold_uchigatana",
+        "walk": "epicfight:biped/living/walk_uchigatana",
+        "chase": "epicfight:biped/living/run_uchigatana"
+      }
+    }
+  ],
+  "stun_animations": {
+    "short": "epicfight:biped/combat/hit_short",
+    "long": "epicfight:biped/combat/hit_long",
+    "knockdown": "epicfight:biped/combat/knockdown",
+    "fall": "epicfight:biped/living/landing"
+  },
+  "combat_behavior": [
+    {
+      "weapon_categories": [ "uchigatana" ],
+      "style": "two_hand",
+      "behavior_series": [
+        {
+          "weight": 200.0,
+          "canBeInterrupted": false,
+          "looping": false,
+          "cooldown": 80,
+          "behaviors": [
+            {
+              "conditions": [
+                { "predicate": "within_eye_height" },
+                { "predicate": "within_distance", "min": 0.0, "max": 1.7 },
+                { "predicate": "within_angle_horizontal", "min": 0.0, "max": 60.0 },
+                { "predicate": "random_chance", "chance": 0.1 },
+                { "predicate": "epicfight:health", "comparator": "less_ratio", "health": 0.8 }
+              ],
+              "animation": "epicfight:biped/skill/revelation_normal"
+            }
+          ]
+        },
+        {
+          "weight": 100.0,
+          "canBeInterrupted": false,
+          "looping": false,
+          "behaviors": [
+            {
+              "conditions": [
+                { "predicate": "within_eye_height" },
+                { "predicate": "within_distance", "min": 2.5, "max": 3.4 },
+                { "predicate": "within_angle_horizontal", "min": 0.0, "max": 90.0 }
+              ],
+              "animation": "epicfight:biped/combat/uchigatana_dash"
+            }
+          ]
+        },
+        {
+          "weight": 100.0,
+          "canBeInterrupted": false,
+          "looping": true,
+          "behaviors": [
+            {
+              "conditions": [
+                { "predicate": "within_eye_height" },
+                { "predicate": "within_distance", "min": 0.0, "max": 2.5 },
+                { "predicate": "within_angle_horizontal", "min": -20.0, "max": 100.0 },
+                { "predicate": "random_chance", "chance": 0.5 }
+              ],
+              "animation": "epicfight:biped/combat/uchigatana_airslash"
+            }
+          ]
+        },
+        {
+          "weight": 200.0,
+          "canBeInterrupted": false,
+          "looping": true,
+          "behaviors": [
+            {
+              "conditions": [
+                { "predicate": "within_eye_height" },
+                { "predicate": "within_distance", "min": 0.0, "max": 4.3 },
+                { "predicate": "within_angle_horizontal", "min": 0.0, "max": 100.0 }
+              ],
+              "animation": "epicfight:biped/combat/uchigatana_auto1"
+            },
+            {
+              "conditions": [
+                { "predicate": "within_eye_height" },
+                { "predicate": "within_distance", "min": 0.0, "max": 4.1 },
+                { "predicate": "within_angle_horizontal", "min": 0.0, "max": 100.0 }
+              ],
+              "animation": "epicfight:biped/combat/uchigatana_auto2"
+            },
+            {
+              "conditions": [
+                { "predicate": "within_eye_height" },
+                { "predicate": "within_distance", "min": 0.0, "max": 3.8 },
+                { "predicate": "within_angle_horizontal", "min": 0.0, "max": 100.0 }
+              ],
+              "animation": "epicfight:biped/combat/uchigatana_auto3"
+            }
+          ]
+        },
+        {
+          "weight": 100.0,
+          "canBeInterrupted": false,
+          "looping": true,
+          "cooldown": 50,
+          "behaviors": [
+            {
+              "conditions": [
+                { "predicate": "within_eye_height" },
+                { "predicate": "within_distance", "min": 4.3, "max": 5.6 },
+                { "predicate": "within_angle_horizontal", "min": 0.0, "max": 100.0 },
+                { "predicate": "random_chance", "chance": 0.5 }
+              ],
+              "animation": "epicfight:biped/combat/uchigatana_sheath_dash"
+            },
+            {
+              "conditions": [
+                { "predicate": "within_eye_height" },
+                { "predicate": "within_distance", "min": 0.0, "max": 4.3 },
+                { "predicate": "within_angle_horizontal", "min": 0.0, "max": 100.0 }
+              ],
+              "animation": "epicfight:biped/combat/uchigatana_auto1"
+            },
+            {
+              "conditions": [
+                { "predicate": "within_eye_height" },
+                { "predicate": "within_distance", "min": 0.0, "max": 4.1 },
+                { "predicate": "within_angle_horizontal", "min": 0.0, "max": 100.0 }
+              ],
+              "animation": "epicfight:biped/combat/uchigatana_auto2"
+            },
+            {
+              "conditions": [
+                { "predicate": "within_eye_height" },
+                { "predicate": "within_distance", "min": 0.0, "max": 3.8 },
+                { "predicate": "within_angle_horizontal", "min": 0.0, "max": 100.0 }
+              ],
+              "animation": "epicfight:biped/combat/uchigatana_auto3"
+            }
+          ]
+        },
+        {
+          "weight": 100.0,
+          "canBeInterrupted": false,
+          "looping": true,
+          "cooldown": 50,
+          "behaviors": [
+            {
+              "conditions": [
+                { "predicate": "within_eye_height" },
+                { "predicate": "within_distance", "min": 0.0, "max": 2.9 },
+                { "predicate": "within_angle_horizontal", "min": 0.0, "max": 100.0 },
+                { "predicate": "random_chance", "chance": 0.5 }
+              ],
+              "animation": "epicfight:biped/combat/uchigatana_sheath_airslash"
+            }
+          ]
+        },
+        {
+          "weight": 100.0,
+          "canBeInterrupted": false,
+          "looping": true,
+          "cooldown": 50,
+          "behaviors": [
+            {
+              "conditions": [
+                { "predicate": "within_eye_height" },
+                { "predicate": "within_distance", "min": 0.0, "max": 3.2 },
+                { "predicate": "within_angle_horizontal", "min": 0.0, "max": 100.0 },
+                { "predicate": "random_chance", "chance": 0.5 }
+              ],
+              "animation": "epicfight:biped/combat/uchigatana_sheath_auto"
+            }
+          ]
+        },
+        {
+          "weight": 100.0,
+          "canBeInterrupted": false,
+          "looping": false,
+          "cooldown": 200,
+          "behaviors": [
+            {
+              "conditions": [
+                { "predicate": "within_eye_height" },
+                { "predicate": "within_distance", "min": 0.0, "max": 3.0 },
+                { "predicate": "within_angle_horizontal", "min": -30.0, "max": 30.0 },
+                { "predicate": "random_chance", "chance": 0.3 }
+              ],
+              "animation": "epicfight:biped/skill/battojutsu"
+            }
+          ]
+        },
+        {
+          "weight": 100.0,
+          "canBeInterrupted": false,
+          "looping": true,
+          "cooldown": 200,
+          "behaviors": [
+            {
+              "conditions": [
+                { "predicate": "within_eye_height" },
+                { "predicate": "within_distance", "min": 3.0, "max": 10.0 },
+                { "predicate": "within_angle_horizontal", "min": -30.0, "max": 30.0 },
+                { "predicate": "random_chance", "chance": 0.3 }
+              ],
+              "animation": "epicfight:biped/skill/battojutsu_dash"
+            }
+          ]
+        },
+        {
+          "weight": 100.0,
+          "canBeInterrupted": true,
+          "looping": false,
+          "cooldown": 20,
+          "behaviors": [
+            {
+              "conditions": [
+                { "predicate": "within_eye_height" },
+                { "predicate": "within_angle_horizontal", "min": -30.0, "max": 30.0 },
+                { "predicate": "within_distance", "min": 0.0, "max": 5.6 },
+                { "predicate": "random_chance", "chance": 0.6 }
+              ],
+              "animation": "epicfight:biped/skill/roll_backward"
+            }
+          ]
+        },
+        {
+          "weight": 100.0,
+          "canBeInterrupted": true,
+          "looping": false,
+          "cooldown": 40,
+          "behaviors": [
+            {
+              "conditions": [
+                { "predicate": "within_eye_height" },
+                { "predicate": "within_angle_horizontal", "min": -30.0, "max": 30.0 },
+                { "predicate": "within_distance", "min": 3.0, "max": 6.0 },
+                { "predicate": "random_chance", "chance": 0.5 }
+              ],
+              "animation": "epicfight:biped/skill/roll_forward"
+            }
+          ]
+        },
+        {
+          "weight": 100.0,
+          "canBeInterrupted": false,
+          "looping": false,
+          "cooldown": 40,
+          "behaviors": [
+            {
+              "conditions": [
+                { "predicate": "within_eye_height" },
+                { "predicate": "within_distance", "min": 0.0, "max": 4.0 },
+                { "predicate": "within_angle_horizontal", "min": 0.0, "max": 60.0 },
+                { "predicate": "random_chance", "chance": 0.4 }
+              ],
+              "animation": "epicfight:biped/skill/step_left"
+            }
+          ]
+        },
+        {
+          "weight": 100.0,
+          "canBeInterrupted": false,
+          "looping": false,
+          "cooldown": 40,
+          "behaviors": [
+            {
+              "conditions": [
+                { "predicate": "within_eye_height" },
+                { "predicate": "within_distance", "min": 0.0, "max": 4.0 },
+                { "predicate": "within_angle_horizontal", "min": -60.0, "max": 0.0 },
+                { "predicate": "random_chance", "chance": 0.4 }
+              ],
+              "animation": "epicfight:biped/skill/step_right"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

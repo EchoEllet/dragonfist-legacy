@@ -1,0 +1,30 @@
+[versions]
+mod = "1.0-SNAPSHOT"
+# Kotlin StdLib + Reflect, Serialization and Coroutines are bundled with "Kotlin for Forge" mod dependency.
+# Review before using latest versions: https://docs.google.com/spreadsheets/d/1v8K90PBa5qPFrlHBA8PSqlBTYCcp078o5E2XQbt5BUs
+# Also, read before using any depndencies written in Kotlin: https://github.com/thedarkcolour/KotlinModdingSkeleton/tree/1.21-neoforge#important
+kotlin = "2.2.20"
+kotlinforforge = "5.10.0"
+neoforgedModdev = "2.0.107"
+# https://projects.neoforged.net/neoforged/neoforge
+neoforge = "21.1.208"
+minecraft = "1.21.1"
+parchmentMappingsVersion = "2024.11.17"
+minecraftVersionRange = "[1.21.1,1.22)"
+neoVersionRange = "[21,)"
+loaderVersionRange = "[5.3,)"
+java = "21"
+
+epicfight = "21.12.2"
+epicskills = "21.1.1"
+
+[libraries]
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+kotlinforforge = { module = "thedarkcolour:kotlinforforge-neoforge", version.ref = "kotlinforforge" }
+
+epicfight = { module = "maven.modrinth:epic-fight", version.ref = "epicfight" }
+epicfight-skilltree = { module = "maven.modrinth:epic-fight-skill-tree", version.ref = "epicskills" }
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+neoforged = { id = "net.neoforged.moddev", version.ref = "neoforgedModdev" }
