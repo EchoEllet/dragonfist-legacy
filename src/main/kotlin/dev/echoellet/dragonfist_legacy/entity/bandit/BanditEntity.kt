@@ -294,9 +294,4 @@ abstract class BanditEntity(
         val healAmount = (this.maxHealth * KILL_HEAL_PERCENT).coerceAtLeast(1.0f) // at least 1 HP
         this.heal(healAmount)
     }
-
-    // For 1.20.1 only
-//    fun getMobType(): MobType {
-//        return MobType.ILLAGER
-//    }
 }

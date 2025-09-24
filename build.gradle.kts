@@ -5,7 +5,7 @@ plugins {
     `java-library`
     `maven-publish`
     idea
-    alias(libs.plugins.neoforged)
+    alias(libs.plugins.neoforgeGradle)
     alias(libs.plugins.kotlin.jvm)
 }
 
@@ -41,7 +41,6 @@ repositories {
                 url = uri("https://api.modrinth.com/maven")
             }
         }
-//        forRepositories(fg.repository) // For ForgeGradle (Forge 1.20.1)
         filter {
             includeGroup("maven.modrinth")
         }
@@ -66,7 +65,7 @@ neoForge {
     version = neoVersion
 
     parchment {
-        mappingsVersion.set(libs.versions.parchmentMappingsVersion.get())
+        mappingsVersion.set(libs.versions.parchmentMappings.get())
         minecraftVersion.set(mcVersion)
     }
 
@@ -142,7 +141,7 @@ dependencies {
     // runtimeOnly "mezz.jei:jei-${mc_version}-forge:${jei_version}"
 
     implementation(libs.epicfight)
-    implementation(libs.epicfight.skilltree)
+    implementation(libs.epicFightSkillTree)
 
     testImplementation(libs.kotlin.test)
 }
@@ -155,18 +154,15 @@ val generateModMetadata by tasks.registering(ProcessResources::class) {
     group = generationTaskGroup
 
     val replaceProperties = mapOf(
-        "minecraft_version" to mcVersion,
-        "minecraft_version_range" to libs.versions.minecraftVersionRange.get(),
-        "neo_version" to neoVersion,
-        "neo_version_range" to libs.versions.neoVersionRange.get(),
-        "loader_version_range" to libs.versions.loaderVersionRange.get(),
+        "minecraft_version_range" to libs.versions.minecraftRange.get(),
+        "neoforge_version_range" to libs.versions.neoforgeRange.get(),
+        "loader_version_range" to libs.versions.kotlinforforgeLoaderRange.get(),
         "mod_id" to modId,
         "mod_version" to modVersion
     )
     inputs.properties(replaceProperties)
     val targets = listOf(
-        "META-INF/mods.toml", // Forge 1.20.1
-        "META-INF/neoforge.mods.toml"
+        "META-INF/neoforge.mods.toml",
     )
 
     filesMatching(targets) {

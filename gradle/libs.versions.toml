@@ -5,14 +5,13 @@ mod = "1.0-SNAPSHOT"
 # Also, read before using any depndencies written in Kotlin: https://github.com/thedarkcolour/KotlinModdingSkeleton/tree/1.21-neoforge#important
 kotlin = "2.2.20"
 kotlinforforge = "5.10.0"
-neoforgedModdev = "2.0.107"
-# https://projects.neoforged.net/neoforged/neoforge
+kotlinforforgeLoaderRange = "[5.10,)"
+neoforgeGradle = "2.0.107"
 neoforge = "21.1.208"
+neoforgeRange = "[21,)"
 minecraft = "1.21.1"
-parchmentMappingsVersion = "2024.11.17"
-minecraftVersionRange = "[1.21.1,1.22)"
-neoVersionRange = "[21,)"
-loaderVersionRange = "[5.3,)"
+minecraftRange = "[1.21.1,1.22)"
+parchmentMappings = "2024.11.17"
 java = "21"
 
 epicfight = "21.12.2"
@@ -23,8 +22,8 @@ kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotl
 kotlinforforge = { module = "thedarkcolour:kotlinforforge-neoforge", version.ref = "kotlinforforge" }
 
 epicfight = { module = "maven.modrinth:epic-fight", version.ref = "epicfight" }
-epicfight-skilltree = { module = "maven.modrinth:epic-fight-skill-tree", version.ref = "epicskills" }
+epicFightSkillTree = { module = "maven.modrinth:epic-fight-skill-tree", version.ref = "epicskills" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-neoforged = { id = "net.neoforged.moddev", version.ref = "neoforgedModdev" }
+neoforgeGradle = { id = "net.neoforged.moddev", version.ref = "neoforgeGradle" }
