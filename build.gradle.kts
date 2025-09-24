@@ -157,6 +157,8 @@ val generateModMetadata by tasks.registering(ProcessResources::class) {
         "minecraft_version_range" to libs.versions.minecraftRange.get(),
         "neoforge_version_range" to libs.versions.neoforgeRange.get(),
         "loader_version_range" to libs.versions.kotlinforforgeLoaderRange.get(),
+        "epicfight_version_range" to libs.versions.epicfightRange.get(),
+        "epicskills_version_range" to libs.versions.epicskillsRange.get(),
         "mod_id" to modId,
         "mod_version" to modVersion
     )

@@ -15,7 +15,10 @@ parchmentMappings = "2024.11.17"
 java = "21"
 
 epicfight = "21.12.2"
+epicfightRange = "[21.12.1,21.13.0)"
+
 epicskills = "21.1.1"
+epicskillsRange = "[21.1.1,21.2.0)"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
