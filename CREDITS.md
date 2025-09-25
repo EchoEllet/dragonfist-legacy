@@ -9,7 +9,8 @@ All rights belong to their respective owners.
 
 - **Scroll item images:**
     - From
-      [Shifu Craftable Epic Fight Skill Books mod](https://www.curseforge.com/minecraft/mc-mods/shifu-craftable-epic-fight-skill-books)
+      [opengameart.org/content/cc0-document-icons](https://opengameart.org/content/cc0-document-icons) with slight
+      modifications for uniqueness.
 
 - **Messages:**
     - Generated and carefully refined using [ChatGPT AI](https://chatgpt.com/) to ensure quality and suitability
