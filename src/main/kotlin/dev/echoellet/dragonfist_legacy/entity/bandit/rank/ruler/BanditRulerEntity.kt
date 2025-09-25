@@ -55,10 +55,11 @@ class BanditRulerEntity(
         level: ServerLevelAccessor,
         difficulty: DifficultyInstance,
         spawnType: MobSpawnType,
-        spawnGroupData: SpawnGroupData?
+        spawnGroupData: SpawnGroupData?,
+        compound: CompoundTag?
     ): SpawnGroupData? {
         @Suppress("DEPRECATION")
-        val result = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData)
+        val result = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData, compound)
 
         // Must be called after super.finalizeSpawn() to ensure NBT data is loaded
         bossEventHandler.initializeBossEvent()
@@ -101,7 +102,6 @@ class BanditRulerEntity(
         fun createAttributes(): AttributeSupplier.Builder = createBaseAttributes(
             maxHealth = 200.0,
             movementSpeed = 0.5,
-            stepHeight = 16.0,
             knockbackResistance = 0.6,
             attackDamage = 6.0,
             armor = 60.0,

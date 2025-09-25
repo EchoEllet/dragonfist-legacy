@@ -31,7 +31,7 @@ import net.minecraft.world.level.Level
 import net.minecraft.world.level.ServerLevelAccessor
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.material.Fluids
-import net.neoforged.neoforge.fluids.FluidType
+import net.minecraftforge.fluids.FluidType
 
 class KnightEntity(
     type: EntityType<KnightEntity>,
@@ -40,7 +40,6 @@ class KnightEntity(
     companion object {
         fun createAttributes(): AttributeSupplier.Builder = createMobAttributes().apply {
             add(Attributes.MOVEMENT_SPEED, 0.3)
-            add(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.05)
             add(Attributes.ATTACK_SPEED, 1.2)
             add(Attributes.MAX_HEALTH, 40.0)
             add(Attributes.ARMOR, 20.0)
@@ -49,12 +48,13 @@ class KnightEntity(
             add(Attributes.ATTACK_DAMAGE, 4.0)
             add(Attributes.FOLLOW_RANGE, 50.0)
             add(Attributes.ATTACK_KNOCKBACK, 1.0)
-            add(Attributes.STEP_HEIGHT, 6.0)
         }
 
         private val GENDER_ACCESSOR: EntityDataAccessor<Int> =
             SynchedEntityData.defineId(KnightEntity::class.java, EntityDataSerializers.INT)
     }
+
+    override fun getStepHeight(): Float = 6.0f
 
     val passiveHpRegenManager = EntityPassiveHpRegenManager(this, ::isInCombat)
 
@@ -126,7 +126,7 @@ class KnightEntity(
                 Villager::class.java,
                 Player::class.java,
                 ShifuEntity::class.java,
-                IronGolem ::class.java,
+                IronGolem::class.java,
             ) {
                 override fun canUse(): Boolean {
                     val entity = lastHurtByMob
@@ -160,13 +160,14 @@ class KnightEntity(
         level: ServerLevelAccessor,
         difficulty: DifficultyInstance,
         spawnType: MobSpawnType,
-        spawnGroupData: SpawnGroupData?
+        spawnGroupData: SpawnGroupData?,
+        compound: CompoundTag?
     ): SpawnGroupData? {
         genderHandler.setRandomGender()
         weaponEquipper.equipRandomWeapon()
 
         @Suppress("DEPRECATION")
-        return super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData)
+        return super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData, compound)
     }
 
     override fun tick() {
@@ -192,10 +193,10 @@ class KnightEntity(
         return super.canDrownInFluidType(type)
     }
 
-    override fun defineSynchedData(builder: SynchedEntityData.Builder) {
-        super.defineSynchedData(builder)
+    override fun defineSynchedData() {
+        super.defineSynchedData()
         genderHandler = EntityGenderHandler(this, GENDER_ACCESSOR)
-        genderHandler.defineDefault(builder)
+        genderHandler.defineDefault()
     }
 
     override fun readAdditionalSaveData(compound: CompoundTag) {

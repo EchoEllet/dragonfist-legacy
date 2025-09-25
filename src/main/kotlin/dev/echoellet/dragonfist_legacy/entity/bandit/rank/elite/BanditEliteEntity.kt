@@ -16,7 +16,6 @@ class BanditEliteEntity(
         fun createAttributes(): AttributeSupplier.Builder = createBaseAttributes(
             maxHealth = 70.0,
             movementSpeed = 0.425,
-            stepHeight = 10.0,
             knockbackResistance = 0.5,
             attackDamage = 2.5,
             armor = 20.0,

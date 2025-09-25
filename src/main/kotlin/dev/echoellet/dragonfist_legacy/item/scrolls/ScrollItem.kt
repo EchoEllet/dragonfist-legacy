@@ -9,6 +9,7 @@ import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Rarity
 import net.minecraft.world.item.TooltipFlag
+import net.minecraft.world.level.Level
 
 abstract class ScrollItem(
     val tier: ScrollTier,
@@ -23,7 +24,7 @@ abstract class ScrollItem(
 
     override fun appendHoverText(
         stack: ItemStack,
-        context: TooltipContext,
+        context: Level?,
         tooltipComponents: MutableList<Component?>,
         tooltipFlag: TooltipFlag
     ) {

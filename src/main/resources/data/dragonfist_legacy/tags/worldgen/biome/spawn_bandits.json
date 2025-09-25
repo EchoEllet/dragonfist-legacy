@@ -26,6 +26,10 @@
     "minecraft:snowy_slopes",
     "minecraft:jagged_peaks",
     "minecraft:frozen_peaks",
+    "minecraft:windswept_hills",
+    "minecraft:windswept_gravelly_hills",
+    "minecraft:windswept_forest",
+    "minecraft:windswept_savanna",
     {
       "id": "#c:is_snowy",
       "required": false
@@ -72,6 +76,30 @@
     },
     {
       "id": "#c:is_floral",
+      "required": false
+    },
+    {
+      "id": "#forge:is_snowy",
+      "required": false
+    },
+    {
+      "id": "#forge:is_plains",
+      "required": false
+    },
+    {
+      "id": "#forge:is_swamp",
+      "required": false
+    },
+    {
+      "id": "#forge:is_mountain",
+      "required": false
+    },
+    {
+      "id": "#forge:is_mushroom",
+      "required": false
+    },
+    {
+      "id": "#forge:is_floral",
       "required": false
     }
   ]

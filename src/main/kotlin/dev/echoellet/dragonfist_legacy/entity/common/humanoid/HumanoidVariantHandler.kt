@@ -4,7 +4,6 @@ import dev.echoellet.dragonfist_legacy.entity.common.RawEntityPropertyHandler
 import dev.echoellet.dragonfist_legacy.util.minecraftRandom
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.syncher.EntityDataAccessor
-import net.minecraft.network.syncher.SynchedEntityData
 import net.minecraft.world.entity.LivingEntity
 
 class HumanoidVariantHandler(
@@ -22,7 +21,7 @@ class HumanoidVariantHandler(
         nbtKey = KEY,
     )
 
-    fun defineDefault(builder: SynchedEntityData.Builder) = propertyHandler.defineDefault(builder, DEFAULT)
+    fun defineDefault() = propertyHandler.defineDefault(DEFAULT)
 
     fun saveToNBT(compound: CompoundTag) = propertyHandler.saveToNBT(compound)
 

@@ -2,7 +2,6 @@ package dev.echoellet.dragonfist_legacy.entity.common
 
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.syncher.EntityDataAccessor
-import net.minecraft.network.syncher.SynchedEntityData
 import net.minecraft.world.entity.LivingEntity
 
 class RawEntityPropertyHandler(
@@ -13,8 +12,8 @@ class RawEntityPropertyHandler(
     private val _accessor
         get() = accessor
 
-    fun defineDefault(builder: SynchedEntityData.Builder, defaultId: Int) {
-        builder.define(_accessor, defaultId)
+    fun defineDefault(defaultId: Int) {
+        entity.entityData.define(_accessor, defaultId)
     }
 
     /** Saves to NBT */

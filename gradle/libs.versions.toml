@@ -3,32 +3,36 @@ mod = "0.0.1"
 # Kotlin StdLib + Reflect, Serialization and Coroutines are bundled with "Kotlin for Forge" mod dependency.
 # Review before using latest versions: https://docs.google.com/spreadsheets/d/1v8K90PBa5qPFrlHBA8PSqlBTYCcp078o5E2XQbt5BUs
 # Also, read before using any depndencies written in Kotlin: https://github.com/thedarkcolour/KotlinModdingSkeleton/tree/1.21-neoforge#important
-kotlin = "2.2.20"
-kotlinforforge = "5.10.0"
-kotlinforforgeLoaderRange = "[5.10,)"
-neoforgeGradle = "2.0.115"
-neoforge = "21.1.211"
-neoforgeRange = "[21,)"
-minecraft = "1.21.1"
-minecraftRange = "[1.21.1]"
-parchmentMappings = "2024.11.17"
-java = "21"
+kotlin = "2.0.0"
+kotlinforforge = "4.11.0"
+kotlinforforgeLoaderRange = "[4.11,)"
+forgeGradle = "[6.0.16,6.2)"
+forge = "47.4.10"
+forgeRange = "[47,)"
+minecraft = "1.20.1"
+minecraftRange = "[1.20.1]"
+parchmentMappings = "2023.09.03"
+java = "17"
 
-epicfight = "21.12.4"
-epicfightRange = "[21.12.1,21.13.0)"
+epicfight = "20.12.12"
+epicfightRange = "[20.12.7,20.13.0)"
 
-epicskills = "21.1.3"
-epicskillsRange = "[21.1.1,21.2.0)"
+epicskills = "20.1.5"
+epicskillsRange = "[20.1.1,20.2.0)"
 
-brutualbosses = "7010012"
-cupboard = "6078150"
+parchmentForgeGradle = "1.2.0"
+spongepoweredGradle = "0.7-SNAPSHOT"
+spongepoweredProcessor = "0.8.5"
+
+brutualbosses = "7010010"
+cupboard = "5470032"
 
 # For publishing the mod to Modrinth
 modrinthMinotaur = "2.+"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
-kotlinforforge = { module = "thedarkcolour:kotlinforforge-neoforge", version.ref = "kotlinforforge" }
+kotlinforforge = { module = "thedarkcolour:kotlinforforge", version.ref = "kotlinforforge" }
 
 epicfight = { module = "maven.modrinth:epic-fight", version.ref = "epicfight" }
 epicFightSkillTree = { module = "maven.modrinth:epic-fight-skill-tree", version.ref = "epicskills" }
@@ -38,5 +42,7 @@ cupboard = { module = "curse.maven:cupboard-326652", version.ref = "cupboard" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-neoforgeGradle = { id = "net.neoforged.moddev", version.ref = "neoforgeGradle" }
+forgeGradle = { id = "net.minecraftforge.gradle", version.ref = "forgeGradle" }
+parchmentForgeGradle = { id = "org.parchmentmc.librarian.forgegradle", version.ref = "parchmentForgeGradle" }
+spongepowered = { id = "org.spongepowered.mixin", version.ref = "spongepoweredGradle" }
 modrinthMinotaur = { id = "com.modrinth.minotaur", version.ref = "modrinthMinotaur" }

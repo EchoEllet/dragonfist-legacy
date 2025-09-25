@@ -9,9 +9,9 @@ import dev.echoellet.dragonfist_legacy.entity.shifu.util.ShifuMessageUtils
 import dev.echoellet.dragonfist_legacy.util.getRandomFocusSeconds
 import net.minecraft.network.chat.Component
 import net.minecraft.world.entity.player.Player
-import net.neoforged.bus.api.SubscribeEvent
-import net.neoforged.fml.common.EventBusSubscriber
-import net.neoforged.neoforge.event.entity.living.LivingDamageEvent
+import net.minecraftforge.event.entity.living.LivingDamageEvent
+import net.minecraftforge.eventbus.api.SubscribeEvent
+import net.minecraftforge.fml.common.Mod
 import kotlin.math.sqrt
 
 /**
@@ -272,10 +272,10 @@ class ShifuPlayerTrainingPolicy(private val entity: ShifuEntity) {
      *
      * @see [PLAYER_SAFE_HEALTH]
      */
-    @EventBusSubscriber(modid = DragonFistLegacy.ID)
+    @Mod.EventBusSubscriber(modid = DragonFistLegacy.ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
     object PreDamageEventHandler {
         @SubscribeEvent
-        fun onLivingDamage(event: LivingDamageEvent.Pre) {
+        fun onLivingDamage(event: LivingDamageEvent) {
             val target = event.entity
             val attacker = event.source.entity
 
@@ -284,11 +284,11 @@ class ShifuPlayerTrainingPolicy(private val entity: ShifuEntity) {
             val currentHealth = target.health
             val minHealth = PLAYER_SAFE_HEALTH
 
-            val dropsBelowMinHealth = currentHealth - event.newDamage < minHealth
+            val dropsBelowMinHealth = currentHealth - event.amount < minHealth
             if (!dropsBelowMinHealth) return
 
             val clamped = (currentHealth - minHealth).coerceAtLeast(0f)
-            event.newDamage = clamped
+            event.amount = clamped
         }
     }
 }

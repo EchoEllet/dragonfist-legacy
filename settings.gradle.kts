@@ -2,7 +2,14 @@ pluginManagement {
     repositories {
         mavenLocal()
         gradlePluginPortal()
-        maven { url = uri("https://maven.neoforged.net/releases") }
+        maven {
+            name = "MinecraftForge"
+            url = uri("https://maven.minecraftforge.net/")
+        }
+        maven {
+            url = uri("https://maven.parchmentmc.org")
+        }
+        maven("https://repo.spongepowered.org/maven")
     }
 }
 

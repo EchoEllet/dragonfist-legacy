@@ -17,9 +17,9 @@ import dev.echoellet.dragonfist_legacy.generated.LangKeys
 import dev.echoellet.dragonfist_legacy.mod_integration.EpicFightModHelper
 import dev.echoellet.dragonfist_legacy.registry.entries.item.ModItems
 import dev.echoellet.dragonfist_legacy.util.enchanted
+import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerBossEvent
-import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.world.*
@@ -40,11 +40,10 @@ import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import net.minecraft.world.item.enchantment.Enchantments
-import net.minecraft.world.level.Explosion
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.ServerLevelAccessor
 import net.minecraft.world.level.material.Fluids
-import net.neoforged.neoforge.fluids.FluidType
+import net.minecraftforge.fluids.FluidType
 
 // TODO: Modify Epic Fight mob patch to make Shifu stronger (too weak right now)
 
@@ -56,7 +55,6 @@ class ShifuEntity(
         fun createAttributes(): AttributeSupplier.Builder {
             return createMobAttributes().apply {
                 add(Attributes.MOVEMENT_SPEED, 0.4)
-                add(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.05)
                 add(Attributes.ATTACK_SPEED, 1.2)
                 add(Attributes.MAX_HEALTH, 200.0)
                 add(Attributes.ARMOR, 30.0)
@@ -65,7 +63,6 @@ class ShifuEntity(
                 add(Attributes.FOLLOW_RANGE, 48.0)
                 add(Attributes.KNOCKBACK_RESISTANCE, 0.6)
                 add(Attributes.ATTACK_KNOCKBACK, 1.0)
-                add(Attributes.STEP_HEIGHT, 6.0)
             }
         }
 
@@ -84,6 +81,8 @@ class ShifuEntity(
 
         private const val XP_REWARD = 100
     }
+
+    override fun getStepHeight(): Float = 6.0f
 
     private val playerFocusManager = ShifuFocusManager(this)
     private val interactionHandler = ShifuInteractionHandler(this)
@@ -248,14 +247,15 @@ class ShifuEntity(
         level: ServerLevelAccessor,
         difficulty: DifficultyInstance,
         spawnType: MobSpawnType,
-        spawnGroupData: SpawnGroupData?
+        spawnGroupData: SpawnGroupData?,
+        compound: CompoundTag?
     ): SpawnGroupData? {
         if (EpicFightModHelper.isInstalled()) {
             equipEpicFightGloves()
         }
 
         @Suppress("DEPRECATION")
-        return super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData)
+        return super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData, compound)
     }
 
     private fun equipEpicFightGloves() {
@@ -269,14 +269,14 @@ class ShifuEntity(
                 true -> 5
                 false -> 4
             }
-            return stack.enchanted(Enchantments.SHARPNESS, sharpnessLevel, level().registryAccess())
+            return stack.enchanted(Enchantments.SHARPNESS, sharpnessLevel)
         }
 
         this.setItemSlot(EquipmentSlot.MAINHAND, gloveStack())
         this.setItemSlot(EquipmentSlot.OFFHAND, gloveStack())
     }
 
-    override fun ignoreExplosion(explosion: Explosion): Boolean = true
+    override fun ignoreExplosion(): Boolean = true
 
     override fun fireImmune(): Boolean = true
 
@@ -290,8 +290,8 @@ class ShifuEntity(
         )
     }
 
-    override fun dropCustomDeathLoot(level: ServerLevel, damageSource: DamageSource, recentlyHit: Boolean) {
-        super.dropCustomDeathLoot(level, damageSource, recentlyHit)
+    override fun dropCustomDeathLoot(damageSource: DamageSource, looting: Int, recentlyHit: Boolean) {
+        super.dropCustomDeathLoot(damageSource, looting, recentlyHit)
 
         spawnAtLocation(ItemStack(Items.DIAMOND))
         spawnAtLocation(ItemStack(ModItems.UNCOMMON_SCROLL.get()))

@@ -3,7 +3,7 @@ package dev.echoellet.dragonfist_legacy.entity.common.weapon
 import dev.echoellet.dragonfist_legacy.mod_integration.EpicFightModHelper
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.Items
-import net.neoforged.neoforge.registries.DeferredHolder
+import net.minecraftforge.registries.RegistryObject
 
 /**
  * Represents the material tier of a weapon.
@@ -68,10 +68,10 @@ data class WeaponItems(
 )
 
 object WeaponItemsResolver {
-    private fun dualWield(item: DeferredHolder<out Item, *>): WeaponItems =
+    private fun dualWield(item: RegistryObject<out Item>): WeaponItems =
         WeaponItems(item.get(), item.get())
 
-    private fun singleHand(item: DeferredHolder<out Item, *>): WeaponItems =
+    private fun singleHand(item: RegistryObject<out Item>): WeaponItems =
         WeaponItems(item.get(), null)
 
     private fun dualWield(item: Item): WeaponItems =

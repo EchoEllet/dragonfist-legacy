@@ -1,15 +1,16 @@
 package dev.echoellet.dragonfist_legacy
 
-import net.neoforged.neoforge.common.ModConfigSpec
+import net.minecraftforge.common.ForgeConfigSpec
+
 
 object Config {
-    val MIN_KNIGHTS_SPAWN: ModConfigSpec.IntValue
-    val MAX_KNIGHTS_SPAWN: ModConfigSpec.IntValue
+    val MIN_KNIGHTS_SPAWN: ForgeConfigSpec.IntValue
+    val MAX_KNIGHTS_SPAWN: ForgeConfigSpec.IntValue
 
-    val SPEC: ModConfigSpec
+    val SPEC: ForgeConfigSpec
 
     init {
-        val builder: ModConfigSpec.Builder = ModConfigSpec.Builder()
+        val builder: ForgeConfigSpec.Builder = ForgeConfigSpec.Builder()
 
         builder.push("knights")
 

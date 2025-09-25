@@ -19,6 +19,14 @@
     {
       "id": "#c:is_jungle",
       "required": false
+    },
+    {
+      "id": "#forge:is_plains",
+      "required": false
+    },
+    {
+      "id": "#forge:is_mountain",
+      "required": false
     }
   ]
 }

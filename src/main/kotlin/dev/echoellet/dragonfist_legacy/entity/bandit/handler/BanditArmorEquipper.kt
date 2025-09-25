@@ -179,9 +179,8 @@ class BanditArmorEquipper(private val entity: BanditEntity) {
 
         return when(isHardDifficulty) {
             true -> itemStack.enchanted(
-                Enchantments.PROTECTION,
-                3,
-                entity.registryAccess()
+                Enchantments.ALL_DAMAGE_PROTECTION,
+                3
             )
             false -> itemStack
         }

@@ -4,8 +4,8 @@ import dev.echoellet.dragonfist_legacy.registry.entries.entity.ModEntities
 import dev.echoellet.dragonfist_legacy.registry.entries.item.ModCreativeModeTabs
 import dev.echoellet.dragonfist_legacy.registry.entries.item.ModItems
 import dev.echoellet.dragonfist_legacy.registry.entries.sound.ModSoundEvents
-import net.neoforged.bus.api.IEventBus
-import net.neoforged.neoforge.registries.DeferredRegister
+import net.minecraftforge.eventbus.api.IEventBus
+import net.minecraftforge.registries.DeferredRegister
 
 object ModRegistries {
     private val REGISTRIES: List<DeferredRegister<out Any>> = listOf(

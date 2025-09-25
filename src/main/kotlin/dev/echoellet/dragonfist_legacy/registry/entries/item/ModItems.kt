@@ -17,14 +17,15 @@ import dev.echoellet.dragonfist_legacy.item.spawn_eggs.bandit.BanditEliteSpawnEg
 import dev.echoellet.dragonfist_legacy.item.spawn_eggs.bandit.BanditLeaderSpawnEggItem
 import dev.echoellet.dragonfist_legacy.item.spawn_eggs.bandit.BanditRulerSpawnEggItem
 import net.minecraft.world.item.Item
-import net.neoforged.neoforge.registries.DeferredItem
-import net.neoforged.neoforge.registries.DeferredRegister
+import net.minecraftforge.registries.DeferredRegister
+import net.minecraftforge.registries.ForgeRegistries
+import net.minecraftforge.registries.RegistryObject
 import java.util.function.Supplier
 
 object ModItems {
-    val REGISTRY: DeferredRegister.Items = DeferredRegister.createItems(DragonFistLegacy.ID)
+    val REGISTRY: DeferredRegister<Item> = DeferredRegister.create(ForgeRegistries.ITEMS, DragonFistLegacy.ID)
 
-    private fun <T: Item> registerItem(name: String, builder: () -> T): DeferredItem<T> {
+    private fun <T: Item> registerItem(name: String, builder: () -> T): RegistryObject<T> {
         return REGISTRY.register(name, Supplier {
             builder()
         })

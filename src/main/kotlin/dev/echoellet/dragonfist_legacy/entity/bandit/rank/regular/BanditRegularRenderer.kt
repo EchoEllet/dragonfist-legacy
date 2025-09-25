@@ -4,8 +4,8 @@ import dev.echoellet.dragonfist_legacy.entity.bandit.BanditRenderer
 import dev.echoellet.dragonfist_legacy.entity.common.humanoid.HumanoidVariant
 import dev.echoellet.dragonfist_legacy.generated.ModAssetPaths
 import net.minecraft.client.renderer.entity.EntityRendererProvider
-import net.neoforged.api.distmarker.Dist
-import net.neoforged.api.distmarker.OnlyIn
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 
 @OnlyIn(Dist.CLIENT)
 class BanditRegularRenderer(context: EntityRendererProvider.Context) : BanditRenderer<BanditRegularEntity>(context) {

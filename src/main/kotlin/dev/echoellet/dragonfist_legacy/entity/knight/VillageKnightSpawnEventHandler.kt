@@ -12,9 +12,9 @@ import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.MobSpawnType
 import net.minecraft.world.entity.animal.IronGolem
 import net.minecraft.world.level.levelgen.Heightmap
-import net.neoforged.bus.api.SubscribeEvent
-import net.neoforged.fml.common.EventBusSubscriber
-import net.neoforged.neoforge.event.entity.living.FinalizeSpawnEvent
+import net.minecraftforge.event.entity.living.MobSpawnEvent
+import net.minecraftforge.eventbus.api.SubscribeEvent
+import net.minecraftforge.fml.common.Mod
 
 /**
  * Handles spawning Knights in villages.
@@ -27,11 +27,11 @@ import net.neoforged.neoforge.event.entity.living.FinalizeSpawnEvent
  * - Ignores player-created Iron Golems to prevent unwanted knight spawning.
  * - Spawns knights near the Iron Golem spawn position with a random offset.
  */
-@EventBusSubscriber(modid = DragonFistLegacy.ID)
+@Mod.EventBusSubscriber(modid = DragonFistLegacy.ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 @Suppress("unused")
 object VillageKnightSpawnEventHandler {
     @SubscribeEvent
-    fun onFinalizeSpawn(event: FinalizeSpawnEvent) {
+    fun onFinalizeSpawn(event: MobSpawnEvent.FinalizeSpawn) {
         val entity = event.entity
 
         if (entity !is IronGolem) return
@@ -49,12 +49,12 @@ object VillageKnightSpawnEventHandler {
         }
 
         /**
-         * HACK: We originally tried using [net.neoforged.neoforge.event.entity.EntityJoinLevelEvent],
+         * HACK: We originally tried using [net.minecraftforge.event.entity.EntityJoinLevelEvent],
          * but that event is called whenever an entity (e.g., Iron Golem) joins the level,
          * rather than on its initial spawn. Therefore, it is not suitable for our use case,
          * and no reliable workaround was found in a reasonable timeframe.
          *
-         * Instead, we use [FinalizeSpawnEvent]. However, spawning a knight entity at a position
+         * Instead, we use [MobSpawnEvent.FinalizeSpawn]. However, spawning a knight entity at a position
          * near the Iron Golem during this event will freeze the game and make it unresponsive.
          * Spawning the knight at a different, already-loaded position does not cause this issue,
          * so we apply a 1-tick delay as a workaround.

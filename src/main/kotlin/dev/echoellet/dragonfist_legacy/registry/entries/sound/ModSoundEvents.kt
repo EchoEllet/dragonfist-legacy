@@ -3,14 +3,14 @@ package dev.echoellet.dragonfist_legacy.registry.entries.sound
 import dev.echoellet.dragonfist_legacy.DragonFistLegacy
 import dev.echoellet.dragonfist_legacy.generated.SoundNames
 import dev.echoellet.dragonfist_legacy.util.ModResources
-import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.sounds.SoundEvent
-import net.neoforged.neoforge.registries.DeferredRegister
+import net.minecraftforge.registries.DeferredRegister
+import net.minecraftforge.registries.ForgeRegistries
 import java.util.function.Supplier
 
 object ModSoundEvents {
     val REGISTRY: DeferredRegister<SoundEvent> = DeferredRegister.create(
-        BuiltInRegistries.SOUND_EVENT,
+        ForgeRegistries.SOUND_EVENTS,
         DragonFistLegacy.ID,
     )
 

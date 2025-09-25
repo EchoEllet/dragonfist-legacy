@@ -18,13 +18,13 @@ import net.minecraft.network.chat.Component
 import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.network.syncher.SynchedEntityData
-import net.minecraft.server.level.ServerLevel
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.world.DifficultyInstance
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.MobSpawnType
+import net.minecraft.world.entity.MobType
 import net.minecraft.world.entity.SpawnGroupData
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier
 import net.minecraft.world.entity.ai.attributes.Attributes
@@ -40,7 +40,7 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.ServerLevelAccessor
 import net.minecraft.world.level.material.Fluids
-import net.neoforged.neoforge.fluids.FluidType
+import net.minecraftforge.fluids.FluidType
 
 abstract class BanditEntity(
     type: EntityType<out BanditEntity>,
@@ -54,7 +54,6 @@ abstract class BanditEntity(
             maxHealth: Double,
             movementSpeed: Double,
             followRange: Double = 32.0,
-            stepHeight: Double,
             knockbackResistance: Double? = null,
             attackDamage: Double? = null,
             attackSpeed: Double? = null,
@@ -63,9 +62,7 @@ abstract class BanditEntity(
         ): AttributeSupplier.Builder = createMonsterAttributes().apply {
             add(Attributes.MAX_HEALTH, maxHealth)
             add(Attributes.MOVEMENT_SPEED, movementSpeed)
-            add(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.05)
             add(Attributes.FOLLOW_RANGE, followRange)
-            add(Attributes.STEP_HEIGHT, stepHeight)
             knockbackResistance?.let { add(Attributes.KNOCKBACK_RESISTANCE, knockbackResistance) }
             attackDamage?.let { add(Attributes.ATTACK_DAMAGE, attackDamage) }
             attackSpeed?.let { add(Attributes.ATTACK_SPEED, attackSpeed) }
@@ -75,6 +72,8 @@ abstract class BanditEntity(
 
         private const val KILL_HEAL_PERCENT = 0.05f // 5% of max health
     }
+
+    override fun getStepHeight(): Float = 12f
 
     abstract val xpRewardOnKill: Int
 
@@ -193,10 +192,10 @@ abstract class BanditEntity(
         }
     }
 
-    override fun defineSynchedData(builder: SynchedEntityData.Builder) {
-        super.defineSynchedData(builder)
+    override fun defineSynchedData() {
+        super.defineSynchedData()
         genderHandler = EntityGenderHandler(this, GENDER_ACCESSOR)
-        genderHandler.defineDefault(builder)
+        genderHandler.defineDefault()
     }
 
     override fun addAdditionalSaveData(compound: CompoundTag) {
@@ -223,14 +222,15 @@ abstract class BanditEntity(
         level: ServerLevelAccessor,
         difficulty: DifficultyInstance,
         spawnType: MobSpawnType,
-        spawnGroupData: SpawnGroupData?
+        spawnGroupData: SpawnGroupData?,
+        compound: CompoundTag?
     ): SpawnGroupData? {
         genderHandler.setRandomGender()
         armorEquipper.mayEquipRandomArmorSet()
         weaponEquipper.equipRandomWeapon()
 
         @Suppress("DEPRECATION")
-        return super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData)
+        return super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData, compound)
     }
 
     override fun tick() {
@@ -245,8 +245,8 @@ abstract class BanditEntity(
         return super.hurt(source, amount)
     }
 
-    override fun dropCustomDeathLoot(level: ServerLevel, damageSource: DamageSource, recentlyHit: Boolean) {
-        super.dropCustomDeathLoot(level, damageSource, recentlyHit)
+    override fun dropCustomDeathLoot(damageSource: DamageSource, looting: Int, recentlyHit: Boolean) {
+        super.dropCustomDeathLoot(damageSource, looting, recentlyHit)
 
         scrollDropper.chanceToDropScrolls()
         lootDropper.chanceToDropLoot()
@@ -293,5 +293,9 @@ abstract class BanditEntity(
     private fun healOnKill() {
         val healAmount = (this.maxHealth * KILL_HEAL_PERCENT).coerceAtLeast(1.0f) // at least 1 HP
         this.heal(healAmount)
+    }
+
+    override fun getMobType(): MobType {
+        return MobType.ILLAGER
     }
 }

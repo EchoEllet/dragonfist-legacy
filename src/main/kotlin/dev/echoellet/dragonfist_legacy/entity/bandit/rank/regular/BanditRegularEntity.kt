@@ -27,8 +27,7 @@ class BanditRegularEntity(
     companion object {
         fun createAttributes(): AttributeSupplier.Builder = createBaseAttributes(
             maxHealth = 20.0,
-            movementSpeed = 0.3,
-            stepHeight = 3.0
+            movementSpeed = 0.3
         )
 
         private val VARIANT_ACCESSOR: EntityDataAccessor<Int> =
@@ -37,11 +36,11 @@ class BanditRegularEntity(
 
     private lateinit var variantHandler: HumanoidVariantHandler
 
-    override fun defineSynchedData(builder: SynchedEntityData.Builder) {
-        super.defineSynchedData(builder)
+    override fun defineSynchedData() {
+        super.defineSynchedData()
 
         variantHandler = HumanoidVariantHandler(this, VARIANT_ACCESSOR)
-        variantHandler.defineDefault(builder)
+        variantHandler.defineDefault()
     }
 
     override fun addAdditionalSaveData(compound: CompoundTag) {
@@ -61,12 +60,13 @@ class BanditRegularEntity(
         level: ServerLevelAccessor,
         difficulty: DifficultyInstance,
         spawnType: MobSpawnType,
-        spawnGroupData: SpawnGroupData?
+        spawnGroupData: SpawnGroupData?,
+        compound: CompoundTag?
     ): SpawnGroupData? {
         variantHandler.setRandomVariant()
 
         @Suppress("DEPRECATION")
-        return super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData)
+        return super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData, compound)
     }
 
     override val xpRewardOnKill: Int = 12

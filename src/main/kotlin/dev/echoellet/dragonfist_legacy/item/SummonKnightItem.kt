@@ -15,6 +15,7 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Rarity
 import net.minecraft.world.item.TooltipFlag
 import net.minecraft.world.item.context.UseOnContext
+import net.minecraft.world.level.Level
 import net.minecraft.world.level.gameevent.GameEvent
 
 class SummonKnightItem : Item(
@@ -22,11 +23,11 @@ class SummonKnightItem : Item(
 ) {
     override fun appendHoverText(
         stack: ItemStack,
-        context: TooltipContext,
+        level: Level?,
         tooltipComponents: MutableList<Component?>,
         tooltipFlag: TooltipFlag
     ) {
-        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag)
+        super.appendHoverText(stack, level, tooltipComponents, tooltipFlag)
 
         tooltipComponents.add(Component.translatable(LangKeys.TOOLTIP_SUMMON_KNIGHT))
     }

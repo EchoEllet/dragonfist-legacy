@@ -10,11 +10,11 @@ import dev.echoellet.dragonfist_legacy.entity.bandit.rank.regular.BanditRegularE
 import dev.echoellet.dragonfist_legacy.entity.bandit.rank.ruler.BanditRulerEntity
 import dev.echoellet.dragonfist_legacy.entity.knight.KnightEntity
 import dev.echoellet.dragonfist_legacy.entity.shifu.ShifuEntity
-import net.neoforged.bus.api.SubscribeEvent
-import net.neoforged.fml.common.EventBusSubscriber
-import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent
+import net.minecraftforge.eventbus.api.SubscribeEvent
+import net.minecraftforge.fml.common.Mod
 
-@EventBusSubscriber(modid = DragonFistLegacy.ID)
+@Mod.EventBusSubscriber(modid = DragonFistLegacy.ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 @Suppress("unused")
 object ModEntityAttributes {
 

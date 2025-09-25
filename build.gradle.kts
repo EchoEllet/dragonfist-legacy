@@ -4,8 +4,10 @@ import com.google.gson.JsonParser
 plugins {
     `java-library`
     idea
-    alias(libs.plugins.neoforgeGradle)
+    alias(libs.plugins.forgeGradle)
+    alias(libs.plugins.parchmentForgeGradle)
     alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.spongepowered)
     alias(libs.plugins.modrinthMinotaur)
 }
 
@@ -20,7 +22,7 @@ val modGroupId = group as String
 val modId = "dragonfist_legacy"
 val modVersion = version as String
 
-val neoforgeVersion = libs.versions.neoforge.get()
+val forgeVersion = libs.versions.forgeGradle.get()
 val mcVersion = libs.versions.minecraft.get()
 val javaVersion = libs.versions.java.get().toInt()
 
@@ -33,6 +35,7 @@ repositories {
                     this.url = uri(url)
                 }
             }
+            forRepositories(fg.repository)
             filter {
                 includeGroup(includeGroup)
             }
@@ -64,7 +67,7 @@ repositories {
 
 base {
     archivesName.set(modId)
-    version = "${modVersion}-mc${mcVersion}-neoforge"
+    version = "${modVersion}-mc${mcVersion}-forge"
 }
 
 java {
@@ -80,50 +83,45 @@ kotlin {
     jvmToolchain(javaVersion)
 }
 
-neoForge {
-    version = neoforgeVersion
+minecraft {
+    mappings("parchment", "${libs.versions.parchmentMappings.get()}-${libs.versions.minecraft.get()}")
 
-    parchment {
-        mappingsVersion.set(libs.versions.parchmentMappings.get())
-        minecraftVersion.set(mcVersion)
-    }
+    copyIdeResources.set(true)
 
     runs {
+        configureEach {
+            workingDirectory = "run"
+            property("forge.logging.markers", "REGISTRIES")
+            property("forge.logging.console.level", "debug")
+
+            mods {
+                create(modId) {
+                    source(sourceSets.main.get())
+                }
+            }
+        }
+
         create("client") {
-            client()
-            systemProperty("neoforge.enabledGameTestNamespaces", modId)
+            property("forge.enabledGameTestNamespaces", modId)
         }
 
         create("server") {
-            server()
-            programArgument("--nogui")
-            systemProperty("neoforge.enabledGameTestNamespaces", modId)
+            property("forge.enabledGameTestNamespaces", modId)
+            args("--nogui")
         }
 
         create("gameTestServer") {
-            type = "gameTestServer"
-            systemProperty("neoforge.enabledGameTestNamespaces", modId)
+            property("forge.enabledGameTestNamespaces", modId)
         }
 
         create("data") {
-            data()
-            programArguments.addAll(
+            workingDirectory = "run-data"
+            args(
                 "--mod", modId,
                 "--all",
                 "--output", file("src/generated/resources/").absolutePath,
                 "--existing", file("src/main/resources/").absolutePath
             )
-        }
-
-        configureEach {
-            systemProperty("forge.logging.markers", "REGISTRIES")
-            logLevel = org.slf4j.event.Level.DEBUG
-        }
-    }
-
-    mods {
-        register(modId) {
-            sourceSet(sourceSets.main.get())
         }
     }
 }
@@ -142,15 +140,18 @@ configurations {
 }
 
 dependencies {
+    minecraft("net.minecraftforge:forge:${libs.versions.minecraft.get()}-${libs.versions.forge.get()}")
+    annotationProcessor("org.spongepowered:mixin:${libs.versions.spongepoweredProcessor.get()}:processor")
+
     val localRuntime by configurations.getting
 
     implementation(libs.kotlinforforge)
 
-    implementation(libs.epicfight)
-    implementation(libs.epicFightSkillTree)
+    implementation(fg.deobf(libs.epicfight.get()))
+    implementation(fg.deobf(libs.epicFightSkillTree.get()))
 
-    localRuntime(libs.brutualbosses)
-    localRuntime(libs.cupboard)
+    localRuntime(fg.deobf(libs.brutualbosses.get()))
+    localRuntime(fg.deobf(libs.cupboard.get()))
 
     testImplementation(libs.kotlin.test)
 }
@@ -166,7 +167,7 @@ val generateModMetadata by tasks.registering(ProcessResources::class) {
 
     val replaceProperties = mapOf(
         "minecraft_version_range" to libs.versions.minecraftRange.get(),
-        "neoforge_version_range" to libs.versions.neoforgeRange.get(),
+        "forge_version_range" to libs.versions.forgeRange.get(),
         "loader_version_range" to libs.versions.kotlinforforgeLoaderRange.get(),
         "epicfight_version_range" to libs.versions.epicfightRange.get(),
         "epicskills_version_range" to libs.versions.epicskillsRange.get(),
@@ -175,7 +176,7 @@ val generateModMetadata by tasks.registering(ProcessResources::class) {
     )
     inputs.properties(replaceProperties)
     val targets = listOf(
-        "META-INF/neoforge.mods.toml",
+        "META-INF/mods.toml",
     )
 
     filesMatching(targets) {
@@ -190,7 +191,6 @@ val generateModMetadata by tasks.registering(ProcessResources::class) {
 sourceSets.main {
     resources.srcDir(generateModMetadata.map { it.outputs.files.singleFile })
 }
-neoForge.ideSyncTask(generateModMetadata)
 
 idea {
     module {
@@ -497,7 +497,7 @@ val generateBanditEpicFightMobPatchFiles = tasks.register("generateBanditEpicFig
             .filterNot { it.trimStart().startsWith("\"_comment\"") }
             .joinToString("\n")
 
-        for (rank in BanditRank.entries) {
+        for (rank in BanditRank.values()) {
 
             fun String.replacePlaceholder(name: String, value: Any) =
                 this.replaceFirst("\"\${$name}\"", value.toString())
@@ -523,4 +523,5 @@ sourceSets.main {
 
 tasks.processResources {
     dependsOn(generateBanditEpicFightMobPatchFiles)
+    dependsOn(generateModMetadata)
 }

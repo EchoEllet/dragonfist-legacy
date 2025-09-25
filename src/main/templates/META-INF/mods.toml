@@ -16,22 +16,21 @@ description = '''An Epic Fight addon, adding Shifu, bandits and more to fight an
 config = "${mod_id}.mixins.json"
 
 [[dependencies."${mod_id}"]]
-modId = "neoforge"
-type = "required"
-versionRange = "${neoforge_version_range}"
+modId = "forge"
+mandatory = true
+versionRange = "${forge_version_range}"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies."${mod_id}"]]
 modId = "minecraft"
-type = "required"
+mandatory = true
 versionRange = "${minecraft_version_range}"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies."${mod_id}"]]
 modId = "epicfight"
-type = "optional"
 mandatory = false
 versionRange = "${epicfight_version_range}"
 ordering = "NONE"
@@ -39,7 +38,6 @@ side = "BOTH"
 
 [[dependencies."${mod_id}"]]
 modId = "epicskills"
-type = "optional"
 mandatory = false
 versionRange = "${epicskills_version_range}"
 ordering = "NONE"

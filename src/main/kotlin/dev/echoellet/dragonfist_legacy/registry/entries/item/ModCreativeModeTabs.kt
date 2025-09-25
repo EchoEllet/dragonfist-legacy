@@ -6,7 +6,7 @@ import net.minecraft.core.registries.Registries
 import net.minecraft.network.chat.Component
 import net.minecraft.world.item.CreativeModeTab
 import net.minecraft.world.item.ItemStack
-import net.neoforged.neoforge.registries.DeferredRegister
+import net.minecraftforge.registries.DeferredRegister
 import java.util.function.Supplier
 
 object ModCreativeModeTabs {
@@ -47,7 +47,7 @@ object ModCreativeModeTabs {
             .icon { ItemStack(ModItems.LEGENDARY_SCROLL.get()) }
             .title(Component.translatable(LangKeys.ITEM_GROUP_CREATIVE_MODE_TAB))
             .displayItems { _, tabData ->
-                ITEMS.forEach { item -> tabData.accept(item) }
+                ITEMS.forEach { item -> tabData.accept(item.get()) }
             }
             .build()
     })

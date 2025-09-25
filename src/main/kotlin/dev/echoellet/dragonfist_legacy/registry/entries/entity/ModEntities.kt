@@ -11,16 +11,16 @@ import dev.echoellet.dragonfist_legacy.entity.bandit.rank.regular.BanditRegularE
 import dev.echoellet.dragonfist_legacy.entity.bandit.rank.ruler.BanditRulerEntity
 import dev.echoellet.dragonfist_legacy.entity.knight.KnightEntity
 import dev.echoellet.dragonfist_legacy.entity.shifu.ShifuEntity
-import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.MobCategory
-import net.neoforged.neoforge.registries.DeferredRegister
+import net.minecraftforge.registries.DeferredRegister
+import net.minecraftforge.registries.ForgeRegistries
 import java.util.function.Supplier
 
 object ModEntities {
     val REGISTRY: DeferredRegister<EntityType<*>> = DeferredRegister.create(
-        BuiltInRegistries.ENTITY_TYPE, DragonFistLegacy.ID
+        ForgeRegistries.ENTITY_TYPES, DragonFistLegacy.ID
     )
 
     private const val PLAYER_WIDTH = 0.6f
