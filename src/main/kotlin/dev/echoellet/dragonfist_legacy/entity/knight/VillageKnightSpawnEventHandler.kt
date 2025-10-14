@@ -1,11 +1,13 @@
 package dev.echoellet.dragonfist_legacy.entity.knight
 
+import dev.echoellet.dragonfist_legacy.Config
 import dev.echoellet.dragonfist_legacy.DragonFistLegacy
 import dev.echoellet.dragonfist_legacy.constants.Constants
 import dev.echoellet.dragonfist_legacy.registry.entries.entity.ModEntities
 import net.minecraft.core.BlockPos
 import net.minecraft.server.TickTask
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.util.RandomSource
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.MobSpawnType
 import net.minecraft.world.entity.animal.IronGolem
@@ -18,7 +20,7 @@ import net.neoforged.neoforge.event.entity.living.FinalizeSpawnEvent
  * Handles spawning Knights in villages.
  *
  * WORKAROUND: Since there is no reliable built-in way to spawn knights in villages,
- * this event handler spawns 2-5 knights whenever an Iron Golem naturally spawns
+ * this event handler spawns knights whenever an Iron Golem naturally spawns
  * in a village structure (or any structure).
  *
  * Notes:
@@ -67,12 +69,19 @@ object VillageKnightSpawnEventHandler {
         })
     }
 
+    private fun getKnightsToSpawn(random: RandomSource): Int {
+        val minKnights = Config.MIN_KNIGHTS_SPAWN.get()
+        val maxKnights = Config.MAX_KNIGHTS_SPAWN.get()
+        val knightsToSpawn = minKnights + random.nextInt(maxKnights - minKnights + 1)
+        return knightsToSpawn
+    }
+
     private fun spawnKnights(
         ironGolemPos: BlockPos,
         serverLevel: ServerLevel
     ) {
         val knightEntityType = ModEntities.KNIGHT.get()
-        val knightsToSpawn = 2 + serverLevel.random.nextInt(4) // 2–5 knights per Golem
+        val knightsToSpawn = getKnightsToSpawn(serverLevel.random)
 
         repeat(knightsToSpawn) {
             spawnKnightAtRandomLocation(

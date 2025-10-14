@@ -1,55 +1,32 @@
 package dev.echoellet.dragonfist_legacy
 
 import dev.echoellet.dragonfist_legacy.registry.ModRegistries
-import net.neoforged.bus.api.SubscribeEvent
-import net.neoforged.fml.common.EventBusSubscriber
+import net.neoforged.bus.api.IEventBus
+import net.neoforged.fml.ModContainer
 import net.neoforged.fml.common.Mod
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent
-import net.neoforged.fml.event.lifecycle.FMLDedicatedServerSetupEvent
+import net.neoforged.fml.config.ModConfig
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
-// IMPORTANT: Use thedarkcolour.kotlinforforge.forge.MOD_BUS instead of
-// net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
-import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
-import thedarkcolour.kotlinforforge.neoforge.forge.runForDist
+import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS as KOTLIN_MOD_BUS
 
 @Mod(DragonFistLegacy.ID)
-@EventBusSubscriber
-object DragonFistLegacy {
-    const val ID = "dragonfist_legacy"
+class DragonFistLegacy(modEventBus: IEventBus, modContainer: ModContainer) {
+    companion object {
+        const val ID = "dragonfist_legacy"
 
-    val LOGGER: Logger = LogManager.getLogger(ID)
+        val LOGGER: Logger = LogManager.getLogger(ID)
+
+        /**
+         * IMPORTANT: Avoid using the hardcoded [net.neoforged.neoforge.common.NeoForge.EVENT_BUS].
+         * Since this mod is loaded via Kotlin for Forge, their [KOTLIN_MOD_BUS] must be used instead.
+         *
+         * Preferably, use [modEventBus], which already points to the correct bus.
+         */
+        private val MOD_BUS = KOTLIN_MOD_BUS
+    }
 
     init {
-        LOGGER.info("Registering items, entities, and sounds...")
-
-        // IMPORTANT: Use thedarkcolour.kotlinforforge.forge.MOD_BUS instead of net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
-        ModRegistries.registerAll(MOD_BUS)
-
-        runForDist(clientTarget = {
-            MOD_BUS.addListener(::onClientSetup)
-        }, serverTarget = {
-            MOD_BUS.addListener(::onServerSetup)
-        })
-    }
-
-    /**
-     * Client specific setup, such as renders and keymaps.
-     */
-    private fun onClientSetup(event: FMLClientSetupEvent) {
-        LOGGER.debug("Initializing client...")
-    }
-
-    /**
-     * Fired on the global Forge bus.
-     */
-    private fun onServerSetup(event: FMLDedicatedServerSetupEvent) {
-        LOGGER.debug("Server starting...")
-    }
-
-    @SubscribeEvent
-    fun onCommonSetup(event: FMLCommonSetupEvent) {
-        LOGGER.debug("Common setup complete.")
+        ModRegistries.registerAll(modEventBus)
+        modContainer.registerConfig(ModConfig.Type.SERVER, Config.SPEC)
     }
 }

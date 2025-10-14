@@ -457,5 +457,15 @@
   "entity.dragonfist_legacy.bandit.leader.death": "<Bandit Leader>: Hah... so the 'Bandit Slayer' finally lived up to the name... enjoy it while it lasts...",
   "entity.dragonfist_legacy.bandit.ruler.death": "<Bandit Ruler>: No... this can’t be the end... a rat can’t kill a wolf... not me... not like this!!",
   "entity.dragonfist_legacy.knight": "Knight",
-  "entity.dragonfist_legacy.knight.spawn_egg": "Knight Spawn Egg"
+  "entity.dragonfist_legacy.knight.spawn_egg": "Knight Spawn Egg",
+  "dragonfist_legacy.configuration.title": "Dragonfist Legacy Configuration",
+  "dragonfist_legacy.configuration.section.dragonfist.legacy.server.toml": "Dragonfist Legacy Server Settings",
+  "dragonfist_legacy.configuration.minKnightsSpawn": "Minimum number of knights to spawn",
+  "dragonfist_legacy.configuration.minKnightsSpawn.tooltip": "Minimum number of knights to spawn whenever an Iron Golem spawns in a village structure.",
+  "dragonfist_legacy.configuration.maxKnightsSpawn": "Maximum number of knights to spawn",
+  "dragonfist_legacy.configuration.maxKnightsSpawn.tooltip": "Minimum number of knights that spawn whenever an Iron Golem spawns in a village structure.",
+  "dragonfist_legacy.configuration.knights": "Knights",
+  "dragonfist_legacy.configuration.knights.tooltip": "Settings for knight spawning",
+  "dragonfist_legacy.configuration.section.dragonfist.legacy.server.toml.title": "Dragonfist Legacy Server Configuration",
+  "dragonfist_legacy.configuration.knights.button": "Knights Settings"
 }
