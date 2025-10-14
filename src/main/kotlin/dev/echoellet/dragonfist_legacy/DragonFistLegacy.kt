@@ -22,6 +22,7 @@ class DragonFistLegacy(modEventBus: IEventBus, modContainer: ModContainer) {
          *
          * Preferably, use [modEventBus], which already points to the correct bus.
          */
+        @Suppress("unused")
         private val MOD_BUS = KOTLIN_MOD_BUS
     }
 
