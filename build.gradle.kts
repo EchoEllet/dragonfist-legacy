@@ -46,10 +46,19 @@ repositories {
     )
 
     // Modrinth maven: https://support.modrinth.com/en/articles/8801191-modrinth-maven
+    // Note: Prefer Maven repositories provided by the mod dependencies over Modrinth.
     strictMaven(
         url = "https://api.modrinth.com/maven",
         name = "Modrinth",
         includeGroup = "maven.modrinth"
+    )
+
+    // Curse Maven: https://www.cursemaven.com/
+    // Note: Prefer Modrinth or Maven repositories provided by the mod dependencies over Curse Maven.
+    strictMaven(
+        url = "https://cursemaven.com",
+        name = "CurseMaven",
+        includeGroup = "curse.maven"
     )
 }
 
@@ -139,6 +148,9 @@ dependencies {
 
     implementation(libs.epicfight)
     implementation(libs.epicFightSkillTree)
+
+    localRuntime(libs.brutualbosses)
+    localRuntime(libs.cupboard)
 
     testImplementation(libs.kotlin.test)
 }
@@ -426,13 +438,33 @@ enum class BanditRank(val entityId: String) {
     Leader("bandit_leader"),
     Ruler("bandit_ruler");
 
-    fun getAttributes(): EpicFightMobAttributes = when(this) {
+    fun getAttributes(): EpicFightMobAttributes = when (this) {
         Regular -> EpicFightMobAttributes(impact = 0.4, chasingSpeed = 1.2)
         Enforcer -> EpicFightMobAttributes(impact = 0.425, maxStrikes = 2, armorNegation = 1.0, chasingSpeed = 1.235)
         Champion -> EpicFightMobAttributes(impact = 0.45, maxStrikes = 2, armorNegation = 2.0, chasingSpeed = 1.25)
-        Elite -> EpicFightMobAttributes(impact = 0.455, maxStrikes = 3, scale = 1.050, armorNegation = 5.0, chasingSpeed = 1.275)
-        Leader -> EpicFightMobAttributes(impact = 0.5, maxStrikes = 4, scale = 1.075, armorNegation = 10.0, chasingSpeed = 1.2)
-        Ruler -> EpicFightMobAttributes(impact = 1.0, maxStrikes = 6, scale = 1.085, armorNegation = 20.0, chasingSpeed = 1.235)
+        Elite -> EpicFightMobAttributes(
+            impact = 0.455,
+            maxStrikes = 3,
+            scale = 1.050,
+            armorNegation = 5.0,
+            chasingSpeed = 1.275
+        )
+
+        Leader -> EpicFightMobAttributes(
+            impact = 0.5,
+            maxStrikes = 4,
+            scale = 1.075,
+            armorNegation = 10.0,
+            chasingSpeed = 1.2
+        )
+
+        Ruler -> EpicFightMobAttributes(
+            impact = 1.0,
+            maxStrikes = 6,
+            scale = 1.085,
+            armorNegation = 20.0,
+            chasingSpeed = 1.235
+        )
     }
 }
 
@@ -467,7 +499,8 @@ val generateBanditEpicFightMobPatchFiles = tasks.register("generateBanditEpicFig
 
         for (rank in BanditRank.entries) {
 
-            fun String.replacePlaceholder(name: String, value: Any) = this.replaceFirst("\"\${$name}\"", value.toString())
+            fun String.replacePlaceholder(name: String, value: Any) =
+                this.replaceFirst("\"\${$name}\"", value.toString())
 
             val outputFile = outputDir.get().file("data/$cachedModId/epicfight_mobpatch/${rank.entityId}.json").asFile
             val attributes = rank.getAttributes()

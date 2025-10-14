@@ -20,6 +20,9 @@ epicfightRange = "[21.12.1,21.13.0)"
 epicskills = "21.1.3"
 epicskillsRange = "[21.1.1,21.2.0)"
 
+brutualbosses = "7010012"
+cupboard = "6078150"
+
 # For publishing the mod to Modrinth
 modrinthMinotaur = "2.+"
 
@@ -29,6 +32,9 @@ kotlinforforge = { module = "thedarkcolour:kotlinforforge-neoforge", version.ref
 
 epicfight = { module = "maven.modrinth:epic-fight", version.ref = "epicfight" }
 epicFightSkillTree = { module = "maven.modrinth:epic-fight-skill-tree", version.ref = "epicskills" }
+
+brutualbosses = { module = "curse.maven:brutal-bosses-dungeon-557999", version.ref = "brutualbosses" }
+cupboard = { module = "curse.maven:cupboard-326652", version.ref = "cupboard" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
