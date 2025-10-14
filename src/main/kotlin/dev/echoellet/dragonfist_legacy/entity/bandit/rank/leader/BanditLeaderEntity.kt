@@ -86,7 +86,7 @@ class BanditLeaderEntity(
 
     override val xpRewardOnKill: Int = 60
 
-    override fun getDisplayName(): Component = Component.translatable(LangKeys.ENTITY_BANDIT_LEADER)
+    override fun getNameTag(): Component = Component.translatable(LangKeys.ENTITY_BANDIT_LEADER)
 
     override fun getRank(): BanditRank = BanditRank.Leader
 }

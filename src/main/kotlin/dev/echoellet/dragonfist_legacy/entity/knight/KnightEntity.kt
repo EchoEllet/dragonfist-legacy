@@ -75,7 +75,7 @@ class KnightEntity(
 
     override fun removeWhenFarAway(distanceToClosestPlayer: Double): Boolean = false
 
-    override fun getDisplayName(): Component = Component.translatable(LangKeys.ENTITY_KNIGHT)
+    private fun getNameTag(): Component = Component.translatable(LangKeys.ENTITY_KNIGHT)
 
     override fun getHurtSound(damageSource: DamageSource): SoundEvent = KnightSoundEvents.getHurtSound()
 
@@ -86,7 +86,7 @@ class KnightEntity(
     }
 
     private fun playerLikeName() {
-        customName = getDisplayName()
+        customName = getNameTag()
         isCustomNameVisible = false
     }
 

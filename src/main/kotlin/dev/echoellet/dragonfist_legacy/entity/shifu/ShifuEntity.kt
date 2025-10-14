@@ -107,11 +107,11 @@ class ShifuEntity(
     }
 
     private fun playerLikeName() {
-        customName = getDisplayName() // Player like name
+        customName = getNameTag() // Player like name
         isCustomNameVisible = true
     }
 
-    override fun getDisplayName(): Component = Component.translatable(LangKeys.ENTITY_SHIFU)
+    private fun getNameTag(): Component = Component.translatable(LangKeys.ENTITY_SHIFU)
 
     override fun removeWhenFarAway(distanceToClosestPlayer: Double): Boolean = false
 

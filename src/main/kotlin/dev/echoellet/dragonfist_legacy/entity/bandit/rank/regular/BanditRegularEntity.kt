@@ -70,5 +70,5 @@ class BanditRegularEntity(
     }
 
     override val xpRewardOnKill: Int = 12
-    override fun getDisplayName(): Component = Component.translatable(LangKeys.ENTITY_BANDIT_REGULAR)
+    override fun getNameTag(): Component = Component.translatable(LangKeys.ENTITY_BANDIT_REGULAR)
 }

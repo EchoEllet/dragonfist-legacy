@@ -103,11 +103,11 @@ abstract class BanditEntity(
     }
 
     private fun playerLikeName() {
-        customName = getDisplayName()
+        customName = getNameTag()
         isCustomNameVisible = false
     }
 
-    abstract override fun getDisplayName(): Component
+    abstract fun getNameTag(): Component
 
     /**
      * Returns the rank of this BanditEntity.

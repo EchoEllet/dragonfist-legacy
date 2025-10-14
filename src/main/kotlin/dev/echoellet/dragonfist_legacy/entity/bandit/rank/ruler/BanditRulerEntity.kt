@@ -110,7 +110,7 @@ class BanditRulerEntity(
 
     override val xpRewardOnKill: Int = 100
 
-    override fun getDisplayName(): Component = Component.translatable(LangKeys.ENTITY_BANDIT_RULER)
+    override fun getNameTag(): Component = Component.translatable(LangKeys.ENTITY_BANDIT_RULER)
 
     override fun getRank(): BanditRank = BanditRank.Ruler
 }
