@@ -1,6 +1,7 @@
 package dev.echoellet.dragonfist_legacy.registry.entries.item
 
 import dev.echoellet.dragonfist_legacy.DragonFistLegacy
+import dev.echoellet.dragonfist_legacy.item.SummonKnightItem
 import dev.echoellet.dragonfist_legacy.item.scrolls.tiers.CommonScrollItem
 import dev.echoellet.dragonfist_legacy.item.scrolls.tiers.EpicScrollItem
 import dev.echoellet.dragonfist_legacy.item.scrolls.tiers.LegendaryScrollItem
@@ -78,5 +79,9 @@ object ModItems {
 
     val KNIGHT_SPAWN_EGG = registerItem("knight_spawn_egg") {
         KnightSpawnEggItem()
+    }
+
+    val SUMMON_KNIGHT = registerItem("summon_knight") {
+        SummonKnightItem()
     }
 }

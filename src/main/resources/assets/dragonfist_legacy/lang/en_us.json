@@ -458,6 +458,8 @@
   "entity.dragonfist_legacy.bandit.ruler.death": "<Bandit Ruler>: No... this can’t be the end... a rat can’t kill a wolf... not me... not like this!!",
   "entity.dragonfist_legacy.knight": "Knight",
   "entity.dragonfist_legacy.knight.spawn_egg": "Knight Spawn Egg",
+  "tooltip.dragonfist_legacy.summon_knight": "Bring a Knight to defend villages from Bandits and monsters",
+  "item.dragonfist_legacy.summon_knight": "Summon Knight",
   "dragonfist_legacy.configuration.title": "Dragonfist Legacy Configuration",
   "dragonfist_legacy.configuration.section.dragonfist.legacy.server.toml": "Dragonfist Legacy Server Settings",
   "dragonfist_legacy.configuration.minKnightsSpawn": "Minimum number of knights to spawn",

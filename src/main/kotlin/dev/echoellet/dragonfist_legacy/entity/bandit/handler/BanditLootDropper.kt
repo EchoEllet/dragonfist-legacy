@@ -51,7 +51,7 @@ class BanditLootDropper(private val entity: BanditEntity) {
                     LootEntry(Items.IRON_INGOT, 2, 5, 0.5),
                     LootEntry(Items.DIAMOND, 1, 2, 0.15),
                     LootEntry(Items.FIREWORK_ROCKET, 2, 4, 0.35),
-                    LootEntry(ModItems.KNIGHT_SPAWN_EGG.get(), 1, 1, 0.15),
+                    LootEntry(ModItems.SUMMON_KNIGHT.get(), 1, 1, 0.15),
                 )
 
                 BanditRank.Enforcer -> listOf(
@@ -61,7 +61,7 @@ class BanditLootDropper(private val entity: BanditEntity) {
                     LootEntry(Items.DIAMOND, 2, 4, 0.35),
                     LootEntry(Items.FIREWORK_ROCKET, 4, 8, 0.5),
                     LootEntry(Items.GOLDEN_APPLE, 1, 4, 0.35),
-                    LootEntry(ModItems.KNIGHT_SPAWN_EGG.get(), 1, 1, 0.45),
+                    LootEntry(ModItems.SUMMON_KNIGHT.get(), 1, 1, 0.45),
                 )
 
                 BanditRank.Champion -> listOf(
@@ -73,7 +73,7 @@ class BanditLootDropper(private val entity: BanditEntity) {
                     LootEntry(Items.ENCHANTED_BOOK, 1, 1, 0.2),
                     LootEntry(Items.ENCHANTED_GOLDEN_APPLE, 1, 1, 0.45),
                     LootEntry(Items.GOLDEN_APPLE, 1, 2, 0.55),
-                    LootEntry(ModItems.KNIGHT_SPAWN_EGG.get(), 1, 1, 0.65),
+                    LootEntry(ModItems.SUMMON_KNIGHT.get(), 1, 1, 0.65),
                 )
 
                 BanditRank.Elite -> listOf(
@@ -85,7 +85,7 @@ class BanditLootDropper(private val entity: BanditEntity) {
                     LootEntry(Items.FIREWORK_ROCKET, 16, 32, 0.75),
                     LootEntry(Items.ENCHANTED_GOLDEN_APPLE, 1, 2, 0.5),
                     LootEntry(Items.GOLDEN_APPLE, 2, 8, 0.75),
-                    LootEntry(ModItems.KNIGHT_SPAWN_EGG.get(), 1, 2, 0.95),
+                    LootEntry(ModItems.SUMMON_KNIGHT.get(), 1, 2, 0.95),
                 )
 
                 BanditRank.Leader -> listOf(
@@ -96,7 +96,7 @@ class BanditLootDropper(private val entity: BanditEntity) {
                     LootEntry(Items.NETHERITE_INGOT, 1, 1, 0.25),
                     LootEntry(Items.ENCHANTED_GOLDEN_APPLE, 1, 1, 0.05),
                     LootEntry(Items.FIREWORK_ROCKET, 32, 48, 0.85),
-                    LootEntry(ModItems.KNIGHT_SPAWN_EGG.get(), 2, 2, 0.95),
+                    LootEntry(ModItems.SUMMON_KNIGHT.get(), 2, 2, 0.95),
                 )
 
                 BanditRank.Ruler -> listOf(
@@ -107,7 +107,7 @@ class BanditLootDropper(private val entity: BanditEntity) {
                     LootEntry(Items.NETHERITE_INGOT, 1, 3, 0.5),
                     LootEntry(Items.TOTEM_OF_UNDYING, 1, 1, 0.25),
                     LootEntry(Items.FIREWORK_ROCKET, 32, 64, 0.95),
-                    LootEntry(ModItems.KNIGHT_SPAWN_EGG.get(), 2, 4, 0.95),
+                    LootEntry(ModItems.SUMMON_KNIGHT.get(), 2, 4, 0.95),
                 )
             }
         }

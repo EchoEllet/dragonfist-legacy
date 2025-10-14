@@ -38,6 +38,7 @@ object ModCreativeModeTabs {
         ModItems.BANDIT_LEADER_SPAWN_EGG,
         ModItems.BANDIT_RULER_SPAWN_EGG,
         ModItems.KNIGHT_SPAWN_EGG,
+        ModItems.SUMMON_KNIGHT,
     )
 
     @Suppress("unused")
