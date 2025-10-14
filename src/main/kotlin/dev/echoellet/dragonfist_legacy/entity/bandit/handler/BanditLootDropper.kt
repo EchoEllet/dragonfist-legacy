@@ -2,6 +2,7 @@ package dev.echoellet.dragonfist_legacy.entity.bandit.handler
 
 import dev.echoellet.dragonfist_legacy.entity.bandit.BanditEntity
 import dev.echoellet.dragonfist_legacy.entity.bandit.rank.BanditRank
+import dev.echoellet.dragonfist_legacy.registry.entries.item.ModItems
 import dev.echoellet.dragonfist_legacy.util.randomChance
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
@@ -43,38 +44,70 @@ class BanditLootDropper(private val entity: BanditEntity) {
          * @return A list of [LootEntry] defining the possible drops for that rank.
          */
         fun getLootTableFor(rank: BanditRank): List<LootEntry> {
-            return when(rank) {
+            return when (rank) {
                 BanditRank.Regular -> listOf(
-                    LootEntry(Items.EMERALD, 1, 2, 0.65),
-                    LootEntry(Items.GOLD_INGOT, 1, 2, 0.1),
-                    LootEntry(Items.IRON_INGOT, 1, 4, 0.45),
+                    LootEntry(Items.EMERALD, 2, 4, 0.5),
+                    LootEntry(Items.GOLD_INGOT, 1, 2, 0.25),
+                    LootEntry(Items.IRON_INGOT, 2, 5, 0.5),
+                    LootEntry(Items.DIAMOND, 1, 2, 0.15),
+                    LootEntry(Items.FIREWORK_ROCKET, 2, 4, 0.35),
+                    LootEntry(ModItems.KNIGHT_SPAWN_EGG.get(), 1, 1, 0.15),
                 )
+
                 BanditRank.Enforcer -> listOf(
-                    LootEntry(Items.EMERALD, 2, 8, 0.45),
-                    LootEntry(Items.GOLD_INGOT, 2, 6, 0.2),
+                    LootEntry(Items.EMERALD, 4, 8, 0.6),
+                    LootEntry(Items.GOLD_INGOT, 2, 4, 0.35),
+                    LootEntry(Items.IRON_INGOT, 3, 6, 0.7),
+                    LootEntry(Items.DIAMOND, 2, 4, 0.35),
+                    LootEntry(Items.FIREWORK_ROCKET, 4, 8, 0.5),
+                    LootEntry(Items.GOLDEN_APPLE, 1, 4, 0.35),
+                    LootEntry(ModItems.KNIGHT_SPAWN_EGG.get(), 1, 1, 0.45),
                 )
+
                 BanditRank.Champion -> listOf(
-                    LootEntry(Items.EMERALD, 4, 8, 0.5),
-                    LootEntry(Items.GOLD_INGOT, 2, 8, 0.25),
-                    LootEntry(Items.IRON_INGOT, 2, 6, 0.35),
+                    LootEntry(Items.EMERALD, 6, 12, 0.65),
+                    LootEntry(Items.GOLD_INGOT, 3, 6, 0.5),
+                    LootEntry(Items.IRON_INGOT, 4, 8, 0.5),
+                    LootEntry(Items.DIAMOND, 3, 6, 0.45),
+                    LootEntry(Items.FIREWORK_ROCKET, 8, 16, 0.65),
+                    LootEntry(Items.ENCHANTED_BOOK, 1, 1, 0.2),
+                    LootEntry(Items.ENCHANTED_GOLDEN_APPLE, 1, 1, 0.45),
+                    LootEntry(Items.GOLDEN_APPLE, 1, 2, 0.55),
+                    LootEntry(ModItems.KNIGHT_SPAWN_EGG.get(), 1, 1, 0.65),
                 )
+
                 BanditRank.Elite -> listOf(
-                    LootEntry(Items.EMERALD, 6, 8, 0.6),
-                    LootEntry(Items.GOLD_INGOT, 4, 8, 0.3),
-                    LootEntry(Items.DIAMOND, 1, 2, 0.1),
-                    LootEntry(Items.IRON_INGOT, 5, 10, 0.25),
+                    LootEntry(Items.EMERALD, 8, 14, 0.65),
+                    LootEntry(Items.GOLD_INGOT, 5, 10, 0.45),
+                    LootEntry(Items.IRON_INGOT, 6, 12, 0.4),
+                    LootEntry(Items.DIAMOND_BLOCK, 1, 2, 0.3),
+                    LootEntry(Items.NETHERITE_SCRAP, 1, 2, 0.65),
+                    LootEntry(Items.FIREWORK_ROCKET, 16, 32, 0.75),
+                    LootEntry(Items.ENCHANTED_GOLDEN_APPLE, 1, 2, 0.5),
+                    LootEntry(Items.GOLDEN_APPLE, 2, 8, 0.75),
+                    LootEntry(ModItems.KNIGHT_SPAWN_EGG.get(), 1, 2, 0.95),
                 )
+
                 BanditRank.Leader -> listOf(
-                    LootEntry(Items.EMERALD, 6, 8, 0.6),
+                    LootEntry(Items.EMERALD, 10, 18, 0.7),
                     LootEntry(Items.GOLD_INGOT, 6, 12, 0.5),
-                    LootEntry(Items.DIAMOND, 1, 4, 0.25),
-                    LootEntry(Items.IRON_INGOT, 6, 10, 0.45),
+                    LootEntry(Items.IRON_INGOT, 8, 14, 0.45),
+                    LootEntry(Items.DIAMOND_BLOCK, 2, 3, 0.35),
+                    LootEntry(Items.NETHERITE_INGOT, 1, 1, 0.25),
+                    LootEntry(Items.ENCHANTED_GOLDEN_APPLE, 1, 1, 0.05),
+                    LootEntry(Items.FIREWORK_ROCKET, 32, 48, 0.85),
+                    LootEntry(ModItems.KNIGHT_SPAWN_EGG.get(), 2, 2, 0.95),
                 )
+
                 BanditRank.Ruler -> listOf(
-                    LootEntry(Items.EMERALD, 8, 20, 0.65),
-                    LootEntry(Items.GOLD_INGOT, 16, 24, 0.65),
-                    LootEntry(Items.DIAMOND, 2, 12, 0.45),
-                    LootEntry(Items.IRON_INGOT, 24, 32, 0.75),
+                    LootEntry(Items.EMERALD, 16, 32, 0.75),
+                    LootEntry(Items.GOLD_BLOCK, 2, 4, 0.6),
+                    LootEntry(Items.IRON_BLOCK, 2, 4, 0.55),
+                    LootEntry(Items.DIAMOND_BLOCK, 4, 6, 0.45),
+                    LootEntry(Items.NETHERITE_INGOT, 1, 3, 0.5),
+                    LootEntry(Items.TOTEM_OF_UNDYING, 1, 1, 0.25),
+                    LootEntry(Items.FIREWORK_ROCKET, 32, 64, 0.95),
+                    LootEntry(ModItems.KNIGHT_SPAWN_EGG.get(), 2, 4, 0.95),
                 )
             }
         }
