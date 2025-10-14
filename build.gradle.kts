@@ -3,10 +3,14 @@ import com.google.gson.JsonParser
 
 plugins {
     `java-library`
-    `maven-publish`
     idea
     alias(libs.plugins.neoforgeGradle)
     alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.modrinthMinotaur)
+}
+
+tasks.named<Wrapper>("wrapper") {
+    distributionType = Wrapper.DistributionType.BIN
 }
 
 version = libs.versions.mod.get()
@@ -15,67 +19,69 @@ group = "dev.echoellet"
 val modGroupId = group as String
 val modId = "dragonfist_legacy"
 val modVersion = version as String
-val neoVersion = libs.versions.neoforge.get()
+
+val neoforgeVersion = libs.versions.neoforge.get()
 val mcVersion = libs.versions.minecraft.get()
 val javaVersion = libs.versions.java.get().toInt()
 
-val generationTaskGroup = "generation"
-
 repositories {
-    mavenLocal()
-    exclusiveContent {
-        forRepository {
-            maven {
-                name = "Kotlin for Forge"
-                url = uri("https://thedarkcolour.github.io/KotlinForForge/")
+    fun strictMaven(url: String, includeGroup: String, name: String) {
+        exclusiveContent {
+            forRepository {
+                maven {
+                    this.name = name
+                    this.url = uri(url)
+                }
+            }
+            filter {
+                includeGroup(includeGroup)
             }
         }
-        filter { includeGroup("thedarkcolour") }
     }
+    // Kotlin for Forge maven: https://github.com/thedarkcolour/KotlinForForge
+    strictMaven(
+        url = "https://thedarkcolour.github.io/KotlinForForge/",
+        name = "Kotlin for Forge",
+        includeGroup = "thedarkcolour"
+    )
 
     // Modrinth maven: https://support.modrinth.com/en/articles/8801191-modrinth-maven
-    exclusiveContent {
-        forRepository {
-            maven {
-                name = "Modrinth"
-                url = uri("https://api.modrinth.com/maven")
-            }
-        }
-        filter {
-            includeGroup("maven.modrinth")
-        }
-    }
+    strictMaven(
+        url = "https://api.modrinth.com/maven",
+        name = "Modrinth",
+        includeGroup = "maven.modrinth"
+    )
 }
 
 base {
     archivesName.set(modId)
+    version = "${modVersion}-mc${mcVersion}-neoforge"
 }
 
 java {
+    withSourcesJar()
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(javaVersion))
     }
 }
+
+val sourcesJar by tasks.getting(Jar::class)
 
 kotlin {
     jvmToolchain(javaVersion)
 }
 
 neoForge {
-    version = neoVersion
+    version = neoforgeVersion
 
     parchment {
         mappingsVersion.set(libs.versions.parchmentMappings.get())
         minecraftVersion.set(mcVersion)
     }
 
-    // This line is optional. Access Transformers are automatically detected
-    // accessTransformers.add('src/main/resources/META-INF/accesstransformer.cfg')
     runs {
-
         create("client") {
             client()
-
             systemProperty("neoforge.enabledGameTestNamespaces", modId)
         }
 
@@ -92,8 +98,6 @@ neoForge {
 
         create("data") {
             data()
-
-            // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
             programArguments.addAll(
                 "--mod", modId,
                 "--all",
@@ -101,27 +105,14 @@ neoForge {
                 "--existing", file("src/main/resources/").absolutePath
             )
         }
-        // applies to all the run configs above
-        configureEach {
-            // Recommended logging data for a userdev environment
-            // The markers can be added/remove as needed separated by commas.
-            // "SCAN": For mods scan.
-            // "REGISTRIES": For firing of registry events.
-            // "REGISTRYDUMP": For getting the contents of all registries.
-            systemProperty("forge.logging.markers", "REGISTRIES")
 
-            // Recommended logging level for the console
-            // You can set various levels here.
-            // Please read: https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
+        configureEach {
+            systemProperty("forge.logging.markers", "REGISTRIES")
             logLevel = org.slf4j.event.Level.DEBUG
         }
     }
 
     mods {
-        // define mod <-> source bindings
-        // these are used to tell the game which sources are for which mod
-        // mostly optional in a single mod project
-        // but multi mod projects should define one per mod
         register(modId) {
             sourceSet(sourceSets.main.get())
         }
@@ -133,12 +124,18 @@ sourceSets.main {
     resources.srcDir(layout.projectDirectory.dir("src/generated/resources"))
 }
 
-dependencies {
-    implementation(libs.kotlinforforge)
+configurations {
+    val localRuntime by creating
 
-    // compileOnly "mezz.jei:jei-${mc_version}-common-api:${jei_version}"
-    // compileOnly "mezz.jei:jei-${mc_version}-forge-api:${jei_version}"
-    // runtimeOnly "mezz.jei:jei-${mc_version}-forge:${jei_version}"
+    runtimeClasspath {
+        extendsFrom(localRuntime)
+    }
+}
+
+dependencies {
+    val localRuntime by configurations.getting
+
+    implementation(libs.kotlinforforge)
 
     implementation(libs.epicfight)
     implementation(libs.epicFightSkillTree)
@@ -149,6 +146,8 @@ dependencies {
 tasks.test {
     useJUnitPlatform()
 }
+
+val generationTaskGroup = "generation"
 
 val generateModMetadata by tasks.registering(ProcessResources::class) {
     group = generationTaskGroup
@@ -179,22 +178,7 @@ val generateModMetadata by tasks.registering(ProcessResources::class) {
 sourceSets.main {
     resources.srcDir(generateModMetadata.map { it.outputs.files.singleFile })
 }
-// To avoid having to run "generateModMetadata" manually, make it run on every project reload
 neoForge.ideSyncTask(generateModMetadata)
-
-// Example configuration to allow publishing using the maven-publish plugin
-publishing {
-    publications {
-        register<MavenPublication>("mavenJava") {
-            from(components["java"])
-        }
-    }
-    repositories {
-        maven {
-            url = uri("${project.projectDir}/repo")
-        }
-    }
-}
 
 idea {
     module {
@@ -481,7 +465,7 @@ val generateBanditEpicFightMobPatchFiles = tasks.register("generateBanditEpicFig
             .filterNot { it.trimStart().startsWith("\"_comment\"") }
             .joinToString("\n")
 
-        for (rank in BanditRank.values()) {
+        for (rank in BanditRank.entries) {
 
             fun String.replacePlaceholder(name: String, value: Any) = this.replaceFirst("\"\${$name}\"", value.toString())
 

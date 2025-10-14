@@ -20,6 +20,9 @@ epicfightRange = "[21.12.1,21.13.0)"
 epicskills = "21.1.1"
 epicskillsRange = "[21.1.1,21.2.0)"
 
+# For publishing the mod to Modrinth
+modrinthMinotaur = "2.+"
+
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlinforforge = { module = "thedarkcolour:kotlinforforge-neoforge", version.ref = "kotlinforforge" }
@@ -30,3 +33,4 @@ epicFightSkillTree = { module = "maven.modrinth:epic-fight-skill-tree", version.
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 neoforgeGradle = { id = "net.neoforged.moddev", version.ref = "neoforgeGradle" }
+modrinthMinotaur = { id = "com.modrinth.minotaur", version.ref = "modrinthMinotaur" }
