@@ -15,9 +15,7 @@ See [CREDITS.md](CREDITS.md) for full attribution.
 
 ## Disclaimer
 
-> [!WARNING]
 > **DragonFist Legacy is NOT AN OFFICIAL MINECRAFT PRODUCT.  
 It is NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT.**
-
-> [!NOTE]
+>
 > **This mod is not affiliated with the [Epic Fight Team](https://github.com/Epic-Fight).**
