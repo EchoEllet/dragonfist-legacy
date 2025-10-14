@@ -18,8 +18,8 @@ import net.neoforged.neoforge.event.entity.living.FinalizeSpawnEvent
  * Handles spawning Knights in villages.
  *
  * WORKAROUND: Since there is no reliable built-in way to spawn knights in villages,
- * this event handler spawns 1-3 knights whenever an Iron Golem naturally spawns
- * in a village structure.
+ * this event handler spawns 2-5 knights whenever an Iron Golem naturally spawns
+ * in a village structure (or any structure).
  *
  * Notes:
  * - Ignores player-created Iron Golems to prevent unwanted knight spawning.
@@ -72,7 +72,7 @@ object VillageKnightSpawnEventHandler {
         serverLevel: ServerLevel
     ) {
         val knightEntityType = ModEntities.KNIGHT.get()
-        val knightsToSpawn = 1 + serverLevel.random.nextInt(3) // 1–3 knights per Golem
+        val knightsToSpawn = 2 + serverLevel.random.nextInt(4) // 2–5 knights per Golem
 
         repeat(knightsToSpawn) {
             spawnKnightAtRandomLocation(
