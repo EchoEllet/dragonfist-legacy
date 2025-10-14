@@ -1,23 +1,23 @@
 [versions]
-mod = "1.0-SNAPSHOT"
+mod = "0.0.1"
 # Kotlin StdLib + Reflect, Serialization and Coroutines are bundled with "Kotlin for Forge" mod dependency.
 # Review before using latest versions: https://docs.google.com/spreadsheets/d/1v8K90PBa5qPFrlHBA8PSqlBTYCcp078o5E2XQbt5BUs
 # Also, read before using any depndencies written in Kotlin: https://github.com/thedarkcolour/KotlinModdingSkeleton/tree/1.21-neoforge#important
 kotlin = "2.2.20"
 kotlinforforge = "5.10.0"
 kotlinforforgeLoaderRange = "[5.10,)"
-neoforgeGradle = "2.0.107"
-neoforge = "21.1.208"
+neoforgeGradle = "2.0.115"
+neoforge = "21.1.211"
 neoforgeRange = "[21,)"
 minecraft = "1.21.1"
-minecraftRange = "[1.21.1,1.22)"
+minecraftRange = "[1.21.1]"
 parchmentMappings = "2024.11.17"
 java = "21"
 
-epicfight = "21.12.2"
+epicfight = "21.12.4"
 epicfightRange = "[21.12.1,21.13.0)"
 
-epicskills = "21.1.1"
+epicskills = "21.1.3"
 epicskillsRange = "[21.1.1,21.2.0)"
 
 # For publishing the mod to Modrinth
