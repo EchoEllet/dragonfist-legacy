@@ -1,0 +1,46 @@
+modLoader = "kotlinforforge"
+loaderVersion = "${forgeLoaderVersionRange}"
+license = "${license}"
+issueTrackerURL = "${issueTracker}"
+
+[[mods]]
+modId = "${modId}"
+version = "${modVersion}"
+displayName = "${displayName}"
+displayURL = "${displayUrl}"
+credits = "${credits}"
+authors = "${authors}"
+description = '''${description}'''
+
+[[mixins]]
+config = "${modId}.mixins.json"
+
+[[dependencies."${modId}"]]
+modId = "neoforge"
+type = "required"
+versionRange = "${neoforgeVersionRange}"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies."${modId}"]]
+modId = "minecraft"
+type = "required"
+versionRange = "${minecraftVersionRange}"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies."${modId}"]]
+modId = "epicfight"
+type = "optional"
+mandatory = false
+versionRange = "${epicfightVersionRange}"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies."${modId}"]]
+modId = "epicskills"
+type = "optional"
+mandatory = false
+versionRange = "${epicskillsVersionRange}"
+ordering = "NONE"
+side = "BOTH"
