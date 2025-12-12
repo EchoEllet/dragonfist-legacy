@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "id": "${modId}",
+  "version": "${modVersion}",
+  "name": "${displayName}",
+  "description": "${description}",
+  "authors": [
+    "${authors}"
+  ],
+  "contact": {
+    "homepage": "${displayUrl}",
+    "sources": "${sourceCode}"
+  },
+  "license": "${license}",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      {
+        "value": "dev.echoellet.dragonfist_legacy.DragonFistLegacyFabric",
+        "adapter": "kotlin"
+      }
+    ],
+    "client": [
+      {
+        "value": "dev.echoellet.dragonfist_legacy.client.DragonFistLegacyFabricClient",
+        "adapter": "kotlin"
+      }
+    ]
+  },
+  "mixins": [
+    "${modId}.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${fabricLoader}",
+    "minecraft": "~${minecraft}",
+    "java": ">=${javaVersion}",
+    "fabric-api": "*",
+    "fabric-language-kotlin": "*",
+    "forgeconfigapiport": ">=${forgeconfigapiportVersion}"
+  },
+  "suggests": {
+    "epicfight": "*"
+  }
+}

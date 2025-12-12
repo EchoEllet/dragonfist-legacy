@@ -1,0 +1,46 @@
+{
+  "entity.shifu.ambient": {
+    "subtitle": "subtitle.${modId}.shifu.ambient",
+    "category": "entity",
+    "sounds": [
+      "${modId}:shifu/ambient/1",
+      "${modId}:shifu/ambient/2",
+      "${modId}:shifu/ambient/3",
+      "${modId}:shifu/ambient/4",
+      "${modId}:shifu/ambient/5",
+      "${modId}:shifu/ambient/6",
+      "${modId}:shifu/ambient/7",
+      "${modId}:shifu/ambient/8",
+      "${modId}:shifu/ambient/9"
+    ]
+  },
+  "entity.bandit.male.ambient": {
+    "subtitle": "subtitle.${modId}.bandit.ambient",
+    "category": "entity",
+    "sounds": [
+      "${modId}:bandit/male/ambient/1",
+      "${modId}:bandit/male/ambient/2",
+      "${modId}:bandit/male/ambient/3",
+      "${modId}:bandit/male/ambient/4",
+      "${modId}:bandit/male/ambient/5",
+      "${modId}:bandit/male/ambient/6",
+      "${modId}:bandit/male/ambient/7",
+      "${modId}:bandit/male/ambient/8",
+      "${modId}:bandit/male/ambient/9",
+      "${modId}:bandit/male/ambient/10",
+      "${modId}:bandit/male/ambient/11",
+      "${modId}:bandit/male/ambient/12",
+      "${modId}:bandit/male/ambient/13"
+    ]
+  },
+  "entity.bandit.female.ambient": {
+    "subtitle": "subtitle.${modId}.bandit.ambient",
+    "category": "entity",
+    "sounds": [
+      "${modId}:bandit/female/ambient/1",
+      "${modId}:bandit/female/ambient/2",
+      "${modId}:bandit/female/ambient/3",
+      "${modId}:bandit/female/ambient/4"
+    ]
+  }
+}

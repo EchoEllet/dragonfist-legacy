@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "${modId}:knight",
+    "${modId}:shifu",
+    "${modId}:bandit_regular",
+    "${modId}:bandit_enforcer",
+    "${modId}:bandit_champion",
+    "${modId}:bandit_elite",
+    "${modId}:bandit_leader",
+    "${modId}:bandit_ruler"
+  ]
+}
