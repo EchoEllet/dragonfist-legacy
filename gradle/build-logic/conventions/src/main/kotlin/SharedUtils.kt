@@ -1,8 +1,11 @@
+import me.modmuss50.mpp.ModPublishExtension
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalog
 import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.artifacts.dsl.RepositoryHandler
+import org.gradle.api.file.RegularFile
 import org.gradle.api.plugins.BasePluginExtension
+import org.gradle.api.provider.Provider
 import java.net.URI
 
 fun RepositoryHandler.strictMaven(name: String, url: String, vararg includeGroups: String) {
@@ -70,7 +73,62 @@ fun Project.catalogVersion(name: String): String = versionCatalog.findVersion(na
 fun Project.configureBaseArchive(variant: String) {
     extensions.getByType(BasePluginExtension::class.java).apply {
         archivesName.set(modId)
-        version = "${modVersion}-mc${mcVersion}-$variant"
+        version = getFullModVersion(variant)
+    }
+}
+
+private fun Project.getFullModVersion(variant: String): String = "${modVersion}-mc${mcVersion}-$variant"
+
+/**
+ * @param isForgeLike `true` if Forge/NeoForge, `false` if Fabric
+ */
+fun Project.configureModPublish(
+    modLoader: String,
+    isForgeLike: Boolean,
+    jarFile: () -> Provider<RegularFile>
+) {
+    val project = this
+    extensions.getByType(ModPublishExtension::class.java).apply {
+        val sourcesJar = project.tasks.named("sourcesJar")
+
+        dryRun.set(false)
+        changelog.set(project.rootProject.file("CHANGELOG.md").readText())
+
+        modLoaders.add(modLoader)
+        type.set(STABLE)
+        displayName.set(project.getFullModVersion(modLoader))
+        file.set(jarFile())
+        additionalFiles.from(sourcesJar)
+
+        curseforge {
+            accessToken.set(providers.environmentVariable("CURSEFORGE_API_TOKEN"))
+            projectId.set("1403401")
+            minecraftVersions.add(mcVersion)
+            projectSlug.set("dragonfist-legacy")
+
+            requires(if (isForgeLike) "kotlin-for-forge" else "fabric-language-kotlin")
+            if (isForgeLike) {
+                optional("epic-fight-mod")
+                optional("epic-fight-skill-tree")
+            }
+        }
+
+        modrinth {
+            accessToken.set(providers.environmentVariable("MODRINTH_API_TOKEN"))
+            projectId.set("LCNwrktO")
+            minecraftVersions.add(mcVersion)
+
+            // Syncs the GitHub README with the Modrinth project description
+            projectDescription.set(
+                providers.fileContents(project.rootProject.layout.projectDirectory.file("README.md")).asText
+            )
+
+            requires(if (isForgeLike) "kotlin-for-forge" else "fabric-language-kotlin")
+            if (isForgeLike) {
+                optional("epic-fight")
+                optional("epic-fight-skill-tree")
+            }
+        }
     }
 }
 

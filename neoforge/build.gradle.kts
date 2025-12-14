@@ -98,3 +98,8 @@ tasks.processResources {
         expand(replaceProperties)
     }
 }
+
+configureModPublish(
+    modLoader = "neoforge",
+    isForgeLike = true,
+) { tasks.jar.get().archiveFile }

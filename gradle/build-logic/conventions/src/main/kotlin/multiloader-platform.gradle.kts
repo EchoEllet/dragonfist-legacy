@@ -1,5 +1,6 @@
 plugins {
     id("multiloader-base")
+    id("me.modmuss50.mod-publish-plugin")
 }
 
 val commonModule: Project = project(":common")

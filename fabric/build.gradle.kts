@@ -51,3 +51,8 @@ tasks.processResources {
         expand(replaceProperties)
     }
 }
+
+configureModPublish(
+    modLoader = "fabric",
+    isForgeLike = false,
+) { tasks.remapJar.get().archiveFile }

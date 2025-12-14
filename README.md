@@ -2,21 +2,22 @@
 
 Adds martial artists to Epic Fight, along with new content, structures, and mini-bosses throughout the world.
 
-> **WIP:** The mod is currently in an early stage, as we plan to add more content, structures, enhanced AI, combat
-> mechanics, animations, movesets, enhanced interactions, and more unique bosses.
-> However, it's playable for now.
+> **WIP:** The mod is currently in an **early stage** and is **incomplete**,
+> as we plan to add more content, epic structures, enhanced AI, combat
+> mechanics, animations, movesets, enhanced interactions, blocking and more unique bosses, items or entities.
+> However, it's **playable** for now.
 
 ## Dependencies
 
-- [Kotlin for Forge](https://modrinth.com/mod/kotlin-for-forge) (**required**)
+- [Kotlin for Forge](https://modrinth.com/mod/kotlin-for-forge)
+  OR [Kotlin for Fabric](https://modrinth.com/mod/fabric-language-kotlin) (**required**)
 - [Epic Fight](https://modrinth.com/mod/epic-fight) (**optional**)
 - [Epic Fight: Skill Tree](https://modrinth.com/mod/epic-fight-skill-tree) (**optional**)
 
 ## Fabric Support
 
-Coming soon! For now, you can build it from
-source [branch](https://github.com/EchoEllet/dragonfist-legacy/tree/feat/multi-platform-architecture). However,
-the attack animations and models will be vanillified, as Epic Fight does not support Fabric yet.
+The attack animations, movesets, AI and entity models will be vanillified,
+as Epic Fight does not support Fabric yet.
 
 ## License
 

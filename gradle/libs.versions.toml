@@ -1,5 +1,5 @@
 [versions]
-mod = "0.0.1"
+mod = "0.0.2"
 java = "21"
 
 # Kotlin StdLib + Reflect, Serialization and Coroutines are bundled with "Kotlin for Forge" mod dependency.
@@ -49,6 +49,7 @@ forgeconfigapiport = "21.1.6"
 # Other Gradle plugins
 mcSafeResources = "0.0.2"
 spotless = "8.1.0"
+modPublish = "1.1.0"
 
 [libraries]
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -68,6 +69,7 @@ epicfight-neoforge = { module = "maven.modrinth:epic-fight", version.ref = "epic
 epicskills-neoforge = { module = "maven.modrinth:epic-fight-skill-tree", version.ref = "epicskills" }
 
 spotless-gradle-plugin = { module = "com.diffplug.spotless:com.diffplug.spotless.gradle.plugin", version.ref = "spotless" }
+modPublish-gradle-plugin = { module = "me.modmuss50.mod-publish-plugin:me.modmuss50.mod-publish-plugin.gradle.plugin", version.ref = "modPublish" }
 
 mixin = { module = "org.spongepowered:mixin", version.ref = "mixin" }
 
@@ -77,6 +79,7 @@ cupboard = { module = "curse.maven:cupboard-326652", version.ref = "cupboard" }
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 mcSafeResources = { id = "dev.echoellet.mc-safe-resources", version.ref = "mcSafeResources" }
+modPublish = { id = "me.modmuss50.mod-publish-plugin", version.ref = "modPublish" }
 
 moddevgradle = { id = "net.neoforged.moddev", version.ref = "moddevgradle" }
 fabricloom = { id = "net.fabricmc.fabric-loom-remap", version.ref = "fabricloom" }
