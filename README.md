@@ -1,6 +1,22 @@
 # DragonFist Legacy
 
-An Epic fight addon.
+Adds martial artists to Epic Fight, along with new content, structures, and mini-bosses throughout the world.
+
+> **WIP:** The mod is currently in an early stage, as we plan to add more content, structures, enhanced AI, combat
+> mechanics, animations, movesets, enhanced interactions, and more unique bosses.
+> However, it's playable for now.
+
+## Dependencies
+
+- [Kotlin for Forge](https://modrinth.com/mod/kotlin-for-forge) (**required**)
+- [Epic Fight](https://modrinth.com/mod/epic-fight) (**optional**)
+- [Epic Fight: Skill Tree](https://modrinth.com/mod/epic-fight-skill-tree) (**optional**)
+
+## Fabric Support
+
+Coming soon! For now, you can build it from
+source [branch](https://github.com/EchoEllet/dragonfist-legacy/tree/feat/multi-platform-architecture). However,
+the attack animations and models will be vanillified, as Epic Fight does not support Fabric yet.
 
 ## License
 
@@ -11,11 +27,11 @@ An Epic fight addon.
 
 ## Credits
 
-See [CREDITS.md](CREDITS.md) for full attribution.
+See [CREDITS.md](https://github.com/EchoEllet/dragonfist-legacy/blob/main/CREDITS.md) for full attribution.
 
 ## Disclaimer
 
 > **DragonFist Legacy is NOT AN OFFICIAL MINECRAFT PRODUCT.  
 It is NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT.**
->
-> **This mod is not affiliated with the [Epic Fight Team](https://github.com/Epic-Fight).**
+
+> Logo generated using AI.

@@ -1,42 +1,82 @@
 [versions]
 mod = "0.0.1"
+java = "21"
+
 # Kotlin StdLib + Reflect, Serialization and Coroutines are bundled with "Kotlin for Forge" mod dependency.
 # Review before using latest versions: https://docs.google.com/spreadsheets/d/1v8K90PBa5qPFrlHBA8PSqlBTYCcp078o5E2XQbt5BUs
 # Also, read before using any depndencies written in Kotlin: https://github.com/thedarkcolour/KotlinModdingSkeleton/tree/1.21-neoforge#important
 kotlin = "2.2.20"
+
 kotlinforforge = "5.10.0"
 kotlinforforgeLoaderRange = "[5.10,)"
-neoforgeGradle = "2.0.122"
+
+# Mod-loader plugins
+moddevgradle = "2.0.122"
+fabricloom = "1.14-SNAPSHOT"
+
+# NeoForge
+neoform = "1.21.1-20240808.144430"
 neoforge = "21.1.216"
 neoforgeRange = "[21,)"
+
+# Fabric
+fabric-loader = "0.18.2"
+fabric-api = "0.116.7+1.21.1"
+fabric-kotlin = "1.13.7+kotlin.2.2.21"
+modmenu-fabric = "11.0.3"
+
+# Minecraft
 minecraft = "1.21.1"
 minecraftRange = "[1.21.1]"
 parchmentMappings = "2024.11.17"
-java = "21"
 
-epicfight = "21.14.1-mc1.21.1-neoforge"
+# Epic Fight
+epicfight = "21.14.3-mc1.21.1-neoforge"
 epicfightRange = "[21.12.1,)"
 
+# Epic SKills
 epicskills = "21.2.5-1.21.1"
 epicskillsRange = "[21.1.1,)"
 
+# SpongePowered Mixin
+mixin = "0.8.7"
+
+# Other mods
 brutualbosses = "7010012"
 cupboard = "6078150"
+forgeconfigapiport = "21.1.6"
 
-# For publishing the mod to Modrinth
-modrinthMinotaur = "2.+"
+# Other Gradle plugins
+mcSafeResources = "0.0.2"
+spotless = "8.1.0"
 
 [libraries]
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlinforforge = { module = "thedarkcolour:kotlinforforge-neoforge", version.ref = "kotlinforforge" }
 
-epicfight = { module = "maven.modrinth:epic-fight", version.ref = "epicfight" }
-epicFightSkillTree = { module = "maven.modrinth:epic-fight-skill-tree", version.ref = "epicskills" }
+fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-loader" }
+fabric-minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
+fabric-api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric-api" }
+fabric-kotlin = { module = "net.fabricmc:fabric-language-kotlin", version.ref = "fabric-kotlin" }
+modmenu-fabric = { module = "com.terraformersmc:modmenu", version.ref = "modmenu-fabric" }
+
+forgeconfigapiport-common = { module = "fuzs.forgeconfigapiport:forgeconfigapiport-common-neoforgeapi", version.ref = "forgeconfigapiport" }
+forgeconfigapiport-fabric = { module = "fuzs.forgeconfigapiport:forgeconfigapiport-fabric", version.ref = "forgeconfigapiport" }
+
+epicfight-neoforge = { module = "maven.modrinth:epic-fight", version.ref = "epicfight" }
+epicskills-neoforge = { module = "maven.modrinth:epic-fight-skill-tree", version.ref = "epicskills" }
+
+spotless-gradle-plugin = { module = "com.diffplug.spotless:com.diffplug.spotless.gradle.plugin", version.ref = "spotless" }
+
+mixin = { module = "org.spongepowered:mixin", version.ref = "mixin" }
 
 brutualbosses = { module = "curse.maven:brutal-bosses-dungeon-557999", version.ref = "brutualbosses" }
 cupboard = { module = "curse.maven:cupboard-326652", version.ref = "cupboard" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-neoforgeGradle = { id = "net.neoforged.moddev", version.ref = "neoforgeGradle" }
-modrinthMinotaur = { id = "com.modrinth.minotaur", version.ref = "modrinthMinotaur" }
+mcSafeResources = { id = "dev.echoellet.mc-safe-resources", version.ref = "mcSafeResources" }
+
+moddevgradle = { id = "net.neoforged.moddev", version.ref = "moddevgradle" }
+fabricloom = { id = "net.fabricmc.fabric-loom-remap", version.ref = "fabricloom" }
