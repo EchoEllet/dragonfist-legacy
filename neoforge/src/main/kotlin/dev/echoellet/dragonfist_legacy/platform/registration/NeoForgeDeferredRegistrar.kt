@@ -32,7 +32,7 @@ class NeoForgeDeferredRegistrar(
     }
 
     override fun registerSound(name: String): DeferredSoundEvent {
-        val location = DragonFistLegacy.rl(name)
+        val location = DragonFistLegacy.identifier(name)
         return sound.register(
             name,
             Supplier { SoundEvent.createVariableRangeEvent(location) }

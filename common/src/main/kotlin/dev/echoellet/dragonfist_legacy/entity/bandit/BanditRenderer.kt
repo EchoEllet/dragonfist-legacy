@@ -4,7 +4,6 @@ import dev.echoellet.dragonfist_legacy.DragonFistLegacy
 import dev.echoellet.dragonfist_legacy.entity.common.gender.Gender
 import dev.echoellet.dragonfist_legacy.entity.common.humanoid.PlayerLikeRenderer
 import net.minecraft.client.renderer.entity.EntityRendererProvider
-import net.minecraft.resources.ResourceLocation
 
 // TODO: Stronger client-only separation (for all Renders or subclasses of PlayerLikeRenderer)
 abstract class BanditRenderer<T : BanditEntity>(context: EntityRendererProvider.Context) :
@@ -18,5 +17,5 @@ abstract class BanditRenderer<T : BanditEntity>(context: EntityRendererProvider.
         Gender.Female -> getFemaleTexturePath(entity)
     }
 
-    override fun getTextureLocation(entity: T): ResourceLocation = DragonFistLegacy.rl(getSkinPath(entity))
+    override fun getTextureLocation(entity: T) = DragonFistLegacy.identifier(getSkinPath(entity))
 }
