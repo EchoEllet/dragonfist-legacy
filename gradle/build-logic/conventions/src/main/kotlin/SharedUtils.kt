@@ -100,16 +100,38 @@ fun Project.configureModPublish(
         file.set(jarFile())
         additionalFiles.from(sourcesJar)
 
+        fun getRequiredDependencies(): List<String> {
+            return buildList {
+                add(if (isForgeLike) "kotlin-for-forge" else "fabric-language-kotlin")
+                if (!isForgeLike) {
+                    add("fabric-api")
+                    add("forge-config-api-port")
+                }
+            }
+        }
+
+        fun getOptionalDependencies(isCurseForge: Boolean): List<String> {
+            return buildList {
+                if (isForgeLike) {
+                    add(if (isCurseForge) "epic-fight-mod" else "epic-fight")
+                    add("epic-fight-skill-tree")
+                } else {
+                    add("modmenu")
+                }
+            }
+        }
+
         curseforge {
             accessToken.set(providers.environmentVariable("CURSEFORGE_API_TOKEN"))
             projectId.set("1403401")
             minecraftVersions.add(mcVersion)
             projectSlug.set("dragonfist-legacy")
 
-            requires(if (isForgeLike) "kotlin-for-forge" else "fabric-language-kotlin")
-            if (isForgeLike) {
-                optional("epic-fight-mod")
-                optional("epic-fight-skill-tree")
+            for (dependency in getRequiredDependencies()) {
+                requires(dependency)
+            }
+            for (dependency in getOptionalDependencies(true)) {
+                optional(dependency)
             }
         }
 
@@ -123,10 +145,11 @@ fun Project.configureModPublish(
                 providers.fileContents(project.rootProject.layout.projectDirectory.file("README.md")).asText
             )
 
-            requires(if (isForgeLike) "kotlin-for-forge" else "fabric-language-kotlin")
-            if (isForgeLike) {
-                optional("epic-fight")
-                optional("epic-fight-skill-tree")
+            for (dependency in getRequiredDependencies()) {
+                requires(dependency)
+            }
+            for (dependency in getOptionalDependencies(false)) {
+                optional(dependency)
             }
         }
     }

@@ -39,6 +39,7 @@
     "forgeconfigapiport": ">=${forgeconfigapiportVersion}"
   },
   "suggests": {
-    "epicfight": "*"
+    "epicfight": "*",
+    "modmenu": "*"
   }
 }
