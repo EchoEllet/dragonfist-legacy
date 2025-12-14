@@ -18,7 +18,7 @@ object ModEntitySpawns {
 
     val SPAWN_BANDITS_TAG: TagKey<Biome> = TagKey.create(
         Registries.BIOME,
-        DragonFistLegacy.rl("spawn_bandits"),
+        DragonFistLegacy.identifier("spawn_bandits"),
     )
 
     fun getBanditRegular(): Spawn {

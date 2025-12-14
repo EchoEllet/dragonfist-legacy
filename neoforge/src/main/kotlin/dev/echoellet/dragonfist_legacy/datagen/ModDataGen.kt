@@ -5,7 +5,6 @@ import dev.echoellet.dragonfist_legacy.registry.entries.entity.ModEntitySpawns
 import net.minecraft.core.RegistrySetBuilder
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
-import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.level.biome.MobSpawnSettings
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.common.EventBusSubscriber
@@ -19,7 +18,7 @@ import net.neoforged.neoforge.registries.NeoForgeRegistries
 object ModDataGen {
     private val ADD_SPAWNS_BANDIT: ResourceKey<BiomeModifier> = ResourceKey.create(
         NeoForgeRegistries.Keys.BIOME_MODIFIERS,
-        ResourceLocation.fromNamespaceAndPath(DragonFistLegacy.ID, "add_spawns_bandit"),
+        DragonFistLegacy.identifier("add_spawns_bandit"),
     )
 
     @SubscribeEvent

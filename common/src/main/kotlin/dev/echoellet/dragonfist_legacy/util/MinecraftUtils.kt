@@ -27,6 +27,13 @@ fun ItemStack.enchanted(key: ResourceKey<Enchantment>, level: Int, registryAcces
     return stack
 }
 
-fun ResourceLocation.getItemOrThrow(): Item {
+fun Identifier.getItemOrThrow(): Item {
     return BuiltInRegistries.ITEM.get(this)
+}
+
+// Prepares for 1.21.11: https://neoforged.net/news/21.11release/#renaming-of-resourcelocation-to-identifier
+typealias Identifier = ResourceLocation
+
+fun namespaceIdentifier(namespace: String, path: String): Identifier {
+    return Identifier.fromNamespaceAndPath(namespace, path)
 }

@@ -2,7 +2,7 @@ package dev.echoellet.dragonfist_legacy.compatibility.epicfight
 
 import dev.echoellet.dragonfist_legacy.compatibility.MinecraftMod
 import dev.echoellet.dragonfist_legacy.util.getItemOrThrow
-import net.minecraft.resources.ResourceLocation
+import dev.echoellet.dragonfist_legacy.util.namespaceIdentifier
 
 object EpicFightMod {
     object Items {
@@ -64,10 +64,7 @@ object EpicFightMod {
 
     class ItemId(val id: String) {
         fun asItem(): net.minecraft.world.item.Item {
-            return ResourceLocation.fromNamespaceAndPath(
-                MinecraftMod.EPIC_FIGHT.modId,
-                id
-            ).getItemOrThrow()
+            return namespaceIdentifier(MinecraftMod.EPIC_FIGHT.modId, id).getItemOrThrow()
         }
     }
 }

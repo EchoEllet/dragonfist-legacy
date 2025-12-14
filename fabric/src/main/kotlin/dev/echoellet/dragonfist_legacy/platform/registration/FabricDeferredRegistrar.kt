@@ -26,7 +26,7 @@ class FabricDeferredRegistrar : DeferredRegistrar {
     }
 
     override fun registerSound(name: String): DeferredSoundEvent {
-        val location = DragonFistLegacy.rl(name)
+        val location = DragonFistLegacy.identifier(name)
         return register(BuiltInRegistries.SOUND_EVENT, name, SoundEvent.createVariableRangeEvent(location))
     }
 
@@ -42,7 +42,7 @@ class FabricDeferredRegistrar : DeferredRegistrar {
         name: String,
         value: T,
     ): Supplier<T> {
-        val registered = Registry.register(registry, DragonFistLegacy.rl(name), value)
+        val registered = Registry.register(registry, DragonFistLegacy.identifier(name), value)
         return Supplier { registered }
     }
 }
