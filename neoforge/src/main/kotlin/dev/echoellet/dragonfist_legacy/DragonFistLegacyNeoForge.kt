@@ -1,5 +1,6 @@
 package dev.echoellet.dragonfist_legacy
 
+import dev.echoellet.dragonfist_legacy.client.DragonFistLegacyNeoForgeClient
 import dev.echoellet.dragonfist_legacy.compatibility.MinecraftMod
 import dev.echoellet.dragonfist_legacy.compatibility.epicskills.EpicSkillsMod
 import dev.echoellet.dragonfist_legacy.platform.NeoForgeModPlatform
@@ -11,6 +12,7 @@ import net.neoforged.bus.api.IEventBus
 import net.neoforged.fml.ModContainer
 import net.neoforged.fml.common.Mod
 import net.neoforged.fml.config.ModConfig
+import net.neoforged.fml.loading.FMLLoader
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent
 
@@ -34,11 +36,19 @@ class DragonFistLegacyNeoForge(modEventBus: IEventBus, modContainer: ModContaine
         )
         modContainer.registerConfig(ModConfig.Type.SERVER, Config.SPEC)
         registerModCompatibilities()
+
+        if (FMLLoader.getDist().isClient) {
+            loadClient(modEventBus, modContainer)
+        }
     }
 
     private fun registerModCompatibilities() {
         if (MinecraftMod.EPIC_SKILLS.isLoaded()) {
             EpicSkillsMod.registerCompatibility()
         }
+    }
+
+    private fun loadClient(modEventBus: IEventBus, container: ModContainer) {
+        DragonFistLegacyNeoForgeClient.initialize(modEventBus, container)
     }
 }

@@ -1,5 +1,6 @@
 package dev.echoellet.dragonfist_legacy.entity.bandit
 
+import dev.echoellet.dragonfist_legacy.DragonFistLegacy
 import dev.echoellet.dragonfist_legacy.entity.bandit.handler.BanditArmorEquipper
 import dev.echoellet.dragonfist_legacy.entity.bandit.handler.BanditLootDropper
 import dev.echoellet.dragonfist_legacy.entity.bandit.handler.BanditScrollDropper
@@ -136,7 +137,12 @@ abstract class BanditEntity(
     abstract fun getRank(): BanditRank
 
     private fun isSpawnType(type: MobSpawnType): Boolean {
-        val spawnType = requireNotNull(mobSpawnType) { "Failed to compare the MobSpawnType as it's null" }
+        val spawnType = mobSpawnType
+        if (spawnType == null) {
+            // TODO: Investigate why this happens in the production side
+            DragonFistLegacy.LOGGER.error("Failed to compare the MobSpawnType as it's null.")
+            return false
+        }
         return spawnType == type
     }
 

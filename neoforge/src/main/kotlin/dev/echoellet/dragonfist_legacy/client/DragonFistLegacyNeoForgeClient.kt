@@ -1,19 +1,15 @@
 package dev.echoellet.dragonfist_legacy.client
 
-import dev.echoellet.dragonfist_legacy.DragonFistLegacy
 import dev.echoellet.dragonfist_legacy.client.platform.NeoForgeClientModPlatform
 import dev.echoellet.dragonfist_legacy.client.platform.registration.NeoForgeEntityRendererRegistrar
-import net.neoforged.api.distmarker.Dist
 import net.neoforged.bus.api.IEventBus
 import net.neoforged.fml.ModContainer
-import net.neoforged.fml.common.Mod
 import net.neoforged.neoforge.client.event.EntityRenderersEvent
 import net.neoforged.neoforge.client.gui.ConfigurationScreen
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory
 
-@Mod(value = DragonFistLegacy.ID, dist = [Dist.CLIENT])
-class DragonFistLegacyNeoForgeClient(modEventBus: IEventBus, container: ModContainer) {
-    init {
+object DragonFistLegacyNeoForgeClient {
+    fun initialize(modEventBus: IEventBus, container: ModContainer) {
         DragonFistLegacyClient.initialize(
             NeoForgeClientModPlatform(
                 entityRendererRegistry = NeoForgeEntityRendererRegistrar().also {
