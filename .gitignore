@@ -26,3 +26,4 @@ logs/
 .kotlin/
 
 repo
+.DS_STORE

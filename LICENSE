@@ -24,4 +24,7 @@ IMPORTANT NOTE:
 
 This license applies to all source code, assets, and documentation created by the DragonFist Legacy project.
 Any third-party assets included in this project (images, sounds, models, music) are **not covered** by this MIT license.
-Please see CREDITS.md for full attribution and licensing details for those third-party assets.
+
+Please see CREDITS.md and LICENSE-ASSETS.md for full attribution and licensing details for those third-party assets.
+
+This "IMPORTANT NOTE" is not part of the MIT License, and was added manually by the project authors.

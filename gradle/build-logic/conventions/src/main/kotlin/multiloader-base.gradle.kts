@@ -61,6 +61,7 @@ repositories {
 tasks.jar {
     from(rootProject.file("LICENSE"))
     from(rootProject.file("CREDITS.md"))
+    from(rootProject.file("LICENSE-ASSETS.md"))
 }
 
 // TODO: Re-enable later
