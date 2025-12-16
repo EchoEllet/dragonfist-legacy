@@ -29,7 +29,7 @@ as Epic Fight does not support Fabric yet.
 
 - All source code and original assets created by the DragonFist Legacy project authors are licensed under
   the [MIT License](LICENSE).
-- Third-party assets included in this project are **not covered** by the MIT License. See [CREDITS.md](CREDITS.md) for
+- Third-party assets included in this project are **not covered** by the MIT License. See [CREDITS.md](CREDITS.md) and [LICENSE-ASSETS](LICENSE-ASSETS.md) for
   full attribution and licensing information.
 
 ## Credits
