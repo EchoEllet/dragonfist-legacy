@@ -36,7 +36,7 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal
 import net.minecraft.world.entity.ai.goal.target.TargetGoal
 import net.minecraft.world.entity.animal.IronGolem
 import net.minecraft.world.entity.monster.Monster
-import net.minecraft.world.entity.npc.Villager
+import net.minecraft.world.entity.npc.AbstractVillager
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.ServerLevelAccessor
@@ -120,7 +120,7 @@ class KnightEntity(
             FloatGoal(this),
             OpenDoorGoal(this, true),
             LookAtPlayerGoal(this, Player::class.java, 10.0F),
-            LookAtPlayerGoal(this, Villager::class.java, 4.0F),
+            LookAtPlayerGoal(this, AbstractVillager::class.java, 4.0F),
             RandomLookAroundGoal(this),
         )
 
@@ -134,7 +134,7 @@ class KnightEntity(
         val targetGoals: List<TargetGoal> = listOf(
             object : HurtByTargetGoal(
                 this,
-                Villager::class.java,
+                AbstractVillager::class.java,
                 Player::class.java,
                 ShifuEntity::class.java,
                 IronGolem::class.java,

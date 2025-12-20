@@ -2,9 +2,9 @@ package dev.echoellet.dragonfist_legacy.entity.bandit.rank.ruler
 
 import dev.echoellet.dragonfist_legacy.entity.bandit.BanditEntity
 import dev.echoellet.dragonfist_legacy.entity.bandit.handler.BanditBossEventHandler
-import dev.echoellet.dragonfist_legacy.entity.bandit.handler.NearbyPlayersMessenger
 import dev.echoellet.dragonfist_legacy.entity.bandit.rank.BanditRank
 import dev.echoellet.dragonfist_legacy.entity.common.CombatMessageSequencer
+import dev.echoellet.dragonfist_legacy.entity.common.NearbyPlayersMessenger
 import dev.echoellet.dragonfist_legacy.generated.LangKeys
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component
@@ -26,7 +26,9 @@ class BanditRulerEntity(
         if (gender.isMale) LangKeys.ENTITY_BANDIT_RULER_BOSS_MALE else LangKeys.ENTITY_BANDIT_RULER_BOSS_FEMALE
     }
     private val combatMessageSequencer = CombatMessageSequencer(
-        this, listOf(
+        this,
+        getTarget = { this.target ?: getPendingTarget() },
+        listOf(
             LangKeys.ENTITY_BANDIT_RULER_DURING_COMBAT_1,
             LangKeys.ENTITY_BANDIT_RULER_DURING_COMBAT_2,
             LangKeys.ENTITY_BANDIT_RULER_DURING_COMBAT_3,

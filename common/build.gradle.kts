@@ -39,15 +39,15 @@ enum class BanditRank(val entityId: String) {
     Ruler("bandit_ruler");
 
     fun getAttributes(): EpicFightMobAttributes = when (this) {
-        Regular -> EpicFightMobAttributes(impact = 0.4, chasingSpeed = 1.2)
-        Enforcer -> EpicFightMobAttributes(impact = 0.425, maxStrikes = 2, armorNegation = 1.0, chasingSpeed = 1.235)
-        Champion -> EpicFightMobAttributes(impact = 0.45, maxStrikes = 2, armorNegation = 2.0, chasingSpeed = 1.25)
+        Regular -> EpicFightMobAttributes(impact = 0.4, chasingSpeed = 1.0)
+        Enforcer -> EpicFightMobAttributes(impact = 0.425, maxStrikes = 2, armorNegation = 1.0, chasingSpeed = 1.05)
+        Champion -> EpicFightMobAttributes(impact = 0.45, maxStrikes = 2, armorNegation = 2.0, chasingSpeed = 1.010)
         Elite -> EpicFightMobAttributes(
             impact = 0.455,
             maxStrikes = 3,
             scale = 1.050,
             armorNegation = 5.0,
-            chasingSpeed = 1.275
+            chasingSpeed = 1.015
         )
 
         Leader -> EpicFightMobAttributes(
@@ -55,7 +55,7 @@ enum class BanditRank(val entityId: String) {
             maxStrikes = 4,
             scale = 1.075,
             armorNegation = 10.0,
-            chasingSpeed = 1.2
+            chasingSpeed = 1.1
         )
 
         Ruler -> EpicFightMobAttributes(
@@ -63,7 +63,7 @@ enum class BanditRank(val entityId: String) {
             maxStrikes = 6,
             scale = 1.085,
             armorNegation = 20.0,
-            chasingSpeed = 1.235
+            chasingSpeed = 1.2
         )
     }
 }

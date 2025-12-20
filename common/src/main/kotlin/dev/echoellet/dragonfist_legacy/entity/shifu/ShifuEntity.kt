@@ -6,11 +6,11 @@ import dev.echoellet.dragonfist_legacy.entity.bandit.BanditEntity
 import dev.echoellet.dragonfist_legacy.entity.bandit.rank.leader.BanditLeaderEntity
 import dev.echoellet.dragonfist_legacy.entity.bandit.rank.ruler.BanditRulerEntity
 import dev.echoellet.dragonfist_legacy.entity.common.EntityPassiveHpRegenManager
+import dev.echoellet.dragonfist_legacy.entity.common.MobFocusManager
 import dev.echoellet.dragonfist_legacy.entity.shifu.combat.ShifuMercifulHurtByTargetGoal
 import dev.echoellet.dragonfist_legacy.entity.shifu.combat.ShifuPlayerTrainingIntroManager
 import dev.echoellet.dragonfist_legacy.entity.shifu.combat.ShifuPlayerTrainingPolicy
 import dev.echoellet.dragonfist_legacy.entity.shifu.handlers.ShifuDeathHandler
-import dev.echoellet.dragonfist_legacy.entity.shifu.handlers.ShifuFocusManager
 import dev.echoellet.dragonfist_legacy.entity.shifu.handlers.ShifuInteractionHandler
 import dev.echoellet.dragonfist_legacy.entity.shifu.handlers.ShifuRainReactionManager
 import dev.echoellet.dragonfist_legacy.entity.shifu.util.ShifuMessageKeys
@@ -52,7 +52,7 @@ import net.minecraft.world.entity.ai.goal.target.TargetGoal
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon
 import net.minecraft.world.entity.boss.wither.WitherBoss
 import net.minecraft.world.entity.monster.Monster
-import net.minecraft.world.entity.npc.Villager
+import net.minecraft.world.entity.npc.AbstractVillager
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
@@ -96,14 +96,12 @@ class ShifuEntity(
             DamageTypes.EXPLOSION,
             DamageTypes.PLAYER_EXPLOSION,
             DamageTypes.FALLING_ANVIL,
-            DamageTypes.WITHER,
-            DamageTypes.WITHER_SKULL,
         )
 
         private const val XP_REWARD = 100
     }
 
-    private val playerFocusManager = ShifuFocusManager(this)
+    private val focusManager = MobFocusManager(this)
     private val interactionHandler = ShifuInteractionHandler(this)
     private val rainReactionManager = ShifuRainReactionManager(this)
     private val passiveHpRegenManager = EntityPassiveHpRegenManager(this, isInCombat = ::isInCombat)
@@ -152,7 +150,7 @@ class ShifuEntity(
             MeleeAttackGoal(this, 1.2, true),
             MoveBackToVillageGoal(this, 0.6, false),
             LookAtPlayerGoal(this, Player::class.java, 10.0f),
-            LookAtPlayerGoal(this, Villager::class.java, 4.0f),
+            LookAtPlayerGoal(this, AbstractVillager::class.java, 4.0f),
             OpenDoorGoal(this, true),
             RandomStrollGoal(this, 0.5),
             FloatGoal(this),
@@ -214,13 +212,13 @@ class ShifuEntity(
         super.tick()
 
         if (!level().isClientSide) {
-            playerFocusManager.updateFocus()
+            focusManager.updateFocus()
             rainReactionManager.tick()
             passiveHpRegenManager.tick()
         }
     }
 
-    fun focusOnPlayer(player: Player, durationSeconds: Int) = playerFocusManager.focusOnPlayer(player, durationSeconds)
+    fun focusOnPlayer(player: Player, durationSeconds: Int) = focusManager.focusOnEntity(player, durationSeconds)
 
     override fun awardKillScore(killed: Entity, scoreValue: Int, source: DamageSource) {
         super.awardKillScore(killed, scoreValue, source)
@@ -253,7 +251,7 @@ class ShifuEntity(
         }
 
         // Clear focus target whenever Shifu is attacked
-        playerFocusManager.clearFocus()
+        focusManager.clearFocus()
         passiveHpRegenManager.onHurt()
 
         return super.hurt(source, amount)

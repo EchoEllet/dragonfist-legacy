@@ -1,7 +1,8 @@
 package dev.echoellet.dragonfist_legacy.entity.common
 
-import dev.echoellet.dragonfist_legacy.entity.bandit.handler.NearbyPlayersMessenger
+import dev.echoellet.dragonfist_legacy.entity.common.CombatMessageSequencer.Companion.INITIAL_DELAY_TICKS
 import dev.echoellet.dragonfist_legacy.util.secondsToTicks
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.Mob
 import net.minecraft.world.entity.player.Player
 
@@ -24,6 +25,7 @@ import net.minecraft.world.entity.player.Player
  */
 class CombatMessageSequencer(
     private val entity: Mob,
+    private val getTarget: () -> LivingEntity?,
     private val messages: List<String>,
 ) {
     companion object {
@@ -55,7 +57,7 @@ class CombatMessageSequencer(
      * Must be called **only** on the server side.
      */
     fun tick() {
-        val target = entity.target ?: return
+        val target = getTarget() ?: return
         if (target !is Player) return
 
         val noMoreMessages = currentMessageIndex >= messages.size

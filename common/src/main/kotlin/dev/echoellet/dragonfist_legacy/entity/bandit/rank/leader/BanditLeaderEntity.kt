@@ -2,9 +2,9 @@ package dev.echoellet.dragonfist_legacy.entity.bandit.rank.leader
 
 import dev.echoellet.dragonfist_legacy.entity.bandit.BanditEntity
 import dev.echoellet.dragonfist_legacy.entity.bandit.handler.BanditBossEventHandler
-import dev.echoellet.dragonfist_legacy.entity.bandit.handler.NearbyPlayersMessenger
 import dev.echoellet.dragonfist_legacy.entity.bandit.rank.BanditRank
 import dev.echoellet.dragonfist_legacy.entity.common.CombatMessageSequencer
+import dev.echoellet.dragonfist_legacy.entity.common.NearbyPlayersMessenger
 import dev.echoellet.dragonfist_legacy.generated.LangKeys
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer
@@ -31,7 +31,9 @@ class BanditLeaderEntity(
     private val bossEventHandler =
         BanditBossEventHandler(this, BossEvent.BossBarColor.RED) { LangKeys.ENTITY_BANDIT_LEADER }
     private val combatMessageSequencer = CombatMessageSequencer(
-        this, listOf(
+        this,
+        getTarget = { this.target ?: getPendingTarget() },
+        listOf(
             LangKeys.ENTITY_BANDIT_LEADER_DURING_COMBAT_1,
             LangKeys.ENTITY_BANDIT_LEADER_DURING_COMBAT_2,
             LangKeys.ENTITY_BANDIT_LEADER_DURING_COMBAT_3,

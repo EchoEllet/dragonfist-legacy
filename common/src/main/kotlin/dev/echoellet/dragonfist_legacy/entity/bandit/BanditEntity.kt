@@ -9,9 +9,12 @@ import dev.echoellet.dragonfist_legacy.entity.bandit.rank.BanditRank
 import dev.echoellet.dragonfist_legacy.entity.bandit.util.BanditSound
 import dev.echoellet.dragonfist_legacy.entity.bandit.util.BanditSoundEvents
 import dev.echoellet.dragonfist_legacy.entity.common.EntityPassiveHpRegenManager
+import dev.echoellet.dragonfist_legacy.entity.common.MobFocusManager
 import dev.echoellet.dragonfist_legacy.entity.common.MobSpawnTypeManager
 import dev.echoellet.dragonfist_legacy.entity.common.gender.EntityGenderHandler
 import dev.echoellet.dragonfist_legacy.entity.common.gender.Gender
+import dev.echoellet.dragonfist_legacy.entity.common.goals.ApproachAndHoldPositionGoal
+import dev.echoellet.dragonfist_legacy.entity.common.goals.TurnBasedTargetSelectionGoal
 import dev.echoellet.dragonfist_legacy.entity.knight.KnightEntity
 import dev.echoellet.dragonfist_legacy.entity.shifu.ShifuEntity
 import dev.echoellet.dragonfist_legacy.generated.LangKeys
@@ -27,6 +30,7 @@ import net.minecraft.world.DifficultyInstance
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.MobSpawnType
 import net.minecraft.world.entity.SpawnGroupData
 import net.minecraft.world.entity.ai.attributes.Attributes
@@ -43,7 +47,7 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal
 import net.minecraft.world.entity.ai.goal.target.TargetGoal
 import net.minecraft.world.entity.animal.IronGolem
 import net.minecraft.world.entity.monster.Monster
-import net.minecraft.world.entity.npc.Villager
+import net.minecraft.world.entity.npc.AbstractVillager
 import net.minecraft.world.entity.npc.WanderingTrader
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
@@ -102,6 +106,11 @@ abstract class BanditEntity(
     private val weaponEquipper = BanditWeaponEquipper(this)
     private val scrollDropper = BanditScrollDropper(this)
     private val lootDropper = BanditLootDropper(this)
+    private val focusManager = MobFocusManager(this)
+
+    fun getPendingTarget(): LivingEntity? {
+        return focusManager.getTarget()
+    }
 
     private fun isInCombat(): Boolean = target?.isAlive == true
 
@@ -179,6 +188,16 @@ abstract class BanditEntity(
     private fun registerNormalGoals() {
         val goals: List<Goal> = listOf(
             MeleeAttackGoal(this, 1.2, true),
+            ApproachAndHoldPositionGoal(
+                mob = this,
+                speedForDistance = { distance ->
+                    if (distance > 220)
+                        ApproachAndHoldPositionGoal.SpeedContext(1.5, true)
+                    else ApproachAndHoldPositionGoal.SpeedContext(1.0, false)
+                },
+                stopDistance = 12.0,
+                approachTarget = { getPendingTarget() }
+            ),
             object : FollowMobGoal(this, 1.0, 10.0f, 5.0f) {
                 override fun canUse(): Boolean {
                     return super.canUse() && canRoamFreely()
@@ -204,19 +223,26 @@ abstract class BanditEntity(
     private fun registerTargetGoals() {
         val targetGoals: List<TargetGoal> = listOf(
             HurtByTargetGoal(this),
-            NearestAttackableTargetGoal(
-                this, Player::class.java,
+            TurnBasedTargetSelectionGoal(
+                this,
+                BanditEntity::class.java,
                 // TODO: Since registerGoals() is called in the constructor, spawnType is null at this point,
                 //  and therefore mustBanditSeePlayerToTarget() will throw a runtime error.
                 //  To save development time, this has been temporarily changed from "mustBanditSeePlayerToTarget()" to "false".
                 //  Later, it must be updated to use mustBanditSeePlayerToTarget()
                 false,
-                false
+                maxFighters = 3,
+                enterStandbyFor = { player ->
+                    focusManager.focusOnEntity(player)
+                    // TODO: NEED TO CLEAR IT later, but the "TurnBasedTargetSelectionGoal" in this case never even enters to stop!
+                    // TODO: It's not just about creative mode, but when they switch to another goal
+                },
+                exitStandby = { focusManager.clearFocus() },
             ),
             NearestAttackableTargetGoal(this, KnightEntity::class.java, false, true),
             NearestAttackableTargetGoal(this, ShifuEntity::class.java, true, true),
             NearestAttackableTargetGoal(this, IronGolem::class.java, false, true),
-            NearestAttackableTargetGoal(this, Villager::class.java, true, true),
+            NearestAttackableTargetGoal(this, AbstractVillager::class.java, true, true),
             NearestAttackableTargetGoal(this, WanderingTrader::class.java, true, true),
         )
 
@@ -278,12 +304,29 @@ abstract class BanditEntity(
         super.tick()
         if (!level().isClientSide) {
             passiveHpRegenManager.tick()
+            focusManager.updateFocus()
         }
     }
 
     override fun hurt(source: DamageSource, amount: Float): Boolean {
         passiveHpRegenManager.onHurt()
+        focusManager.clearFocus()
         return super.hurt(source, amount)
+    }
+
+    override fun setTarget(newTarget: LivingEntity?) {
+        val previousTarget = this.target
+        super.setTarget(newTarget)
+
+        val targetChanged = previousTarget != newTarget
+        if (targetChanged) {
+            // TODO: Do we need a better solution? When the entity hasn't even entered this state (target unchanged), it will not even trigger!
+            // TODO: This is overlapping with TurnBasedTargetSelectionGoal,
+            //  happens when a bandit is focusing on the player (target is null), but then a villager appears,
+            //  the focus is being cleared here but then set again in TurnBasedTargetSelectionGoal.
+            //  So it tried to attack the villager, but focused on the player
+            focusManager.clearFocus()
+        }
     }
 
     override fun dropCustomDeathLoot(level: ServerLevel, damageSource: DamageSource, recentlyHit: Boolean) {

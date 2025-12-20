@@ -5,7 +5,7 @@ import dev.echoellet.dragonfist_legacy.entity.shifu.ShifuEntity
 import dev.echoellet.dragonfist_legacy.util.isVillagerEntity
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal
 import net.minecraft.world.entity.animal.IronGolem
-import net.minecraft.world.entity.npc.Villager
+import net.minecraft.world.entity.npc.AbstractVillager
 import net.minecraft.world.entity.player.Player
 
 /**
@@ -20,7 +20,7 @@ class ShifuMercifulHurtByTargetGoal(
 ) : HurtByTargetGoal(
     entity,
     // Never attacks vanilla villagers.
-    Villager::class.java,
+    AbstractVillager::class.java,
     KnightEntity::class.java,
     IronGolem::class.java,
 ) {

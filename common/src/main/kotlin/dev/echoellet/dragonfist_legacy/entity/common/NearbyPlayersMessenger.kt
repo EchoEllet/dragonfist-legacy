@@ -1,5 +1,6 @@
-package dev.echoellet.dragonfist_legacy.entity.bandit.handler
+package dev.echoellet.dragonfist_legacy.entity.common
 
+import dev.echoellet.dragonfist_legacy.entity.common.NearbyPlayersMessenger.NEARBY_PLAYER_RADIUS
 import net.minecraft.network.chat.Component
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player

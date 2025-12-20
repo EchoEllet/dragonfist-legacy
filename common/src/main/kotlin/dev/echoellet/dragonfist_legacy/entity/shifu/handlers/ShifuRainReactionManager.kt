@@ -1,6 +1,6 @@
 package dev.echoellet.dragonfist_legacy.entity.shifu.handlers
 
-import dev.echoellet.dragonfist_legacy.entity.bandit.handler.NearbyPlayersMessenger
+import dev.echoellet.dragonfist_legacy.entity.common.NearbyPlayersMessenger
 import dev.echoellet.dragonfist_legacy.entity.shifu.ShifuEntity
 import dev.echoellet.dragonfist_legacy.entity.shifu.util.ShifuMessageKeys
 import dev.echoellet.dragonfist_legacy.util.minecraftRandom
