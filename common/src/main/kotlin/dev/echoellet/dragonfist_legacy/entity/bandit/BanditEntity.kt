@@ -234,8 +234,6 @@ abstract class BanditEntity(
                 maxFighters = 3,
                 enterStandbyFor = { player ->
                     focusManager.focusOnEntity(player)
-                    // TODO: NEED TO CLEAR IT later, but the "TurnBasedTargetSelectionGoal" in this case never even enters to stop!
-                    // TODO: It's not just about creative mode, but when they switch to another goal
                 },
                 exitStandby = { focusManager.clearFocus() },
             ),
@@ -310,23 +308,7 @@ abstract class BanditEntity(
 
     override fun hurt(source: DamageSource, amount: Float): Boolean {
         passiveHpRegenManager.onHurt()
-        focusManager.clearFocus()
         return super.hurt(source, amount)
-    }
-
-    override fun setTarget(newTarget: LivingEntity?) {
-        val previousTarget = this.target
-        super.setTarget(newTarget)
-
-        val targetChanged = previousTarget != newTarget
-        if (targetChanged) {
-            // TODO: Do we need a better solution? When the entity hasn't even entered this state (target unchanged), it will not even trigger!
-            // TODO: This is overlapping with TurnBasedTargetSelectionGoal,
-            //  happens when a bandit is focusing on the player (target is null), but then a villager appears,
-            //  the focus is being cleared here but then set again in TurnBasedTargetSelectionGoal.
-            //  So it tried to attack the villager, but focused on the player
-            focusManager.clearFocus()
-        }
     }
 
     override fun dropCustomDeathLoot(level: ServerLevel, damageSource: DamageSource, recentlyHit: Boolean) {
