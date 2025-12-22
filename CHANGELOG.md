@@ -1,3 +1,3 @@
-- Implemented impressive turn-based combat AI, causing the bandits to not attack the player all at once.
+- Shifu will now remember his home, and will attempt to get back at night (initial implementation).
 
 Stay tuned for more future updates!

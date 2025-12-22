@@ -7,10 +7,12 @@ import dev.echoellet.dragonfist_legacy.entity.bandit.rank.leader.BanditLeaderEnt
 import dev.echoellet.dragonfist_legacy.entity.bandit.rank.ruler.BanditRulerEntity
 import dev.echoellet.dragonfist_legacy.entity.common.EntityPassiveHpRegenManager
 import dev.echoellet.dragonfist_legacy.entity.common.MobFocusManager
+import dev.echoellet.dragonfist_legacy.entity.common.goals.GoHomeAtNightGoal
 import dev.echoellet.dragonfist_legacy.entity.shifu.combat.ShifuMercifulHurtByTargetGoal
 import dev.echoellet.dragonfist_legacy.entity.shifu.combat.ShifuPlayerTrainingIntroManager
 import dev.echoellet.dragonfist_legacy.entity.shifu.combat.ShifuPlayerTrainingPolicy
 import dev.echoellet.dragonfist_legacy.entity.shifu.handlers.ShifuDeathHandler
+import dev.echoellet.dragonfist_legacy.entity.shifu.handlers.ShifuHomeTracker
 import dev.echoellet.dragonfist_legacy.entity.shifu.handlers.ShifuInteractionHandler
 import dev.echoellet.dragonfist_legacy.entity.shifu.handlers.ShifuRainReactionManager
 import dev.echoellet.dragonfist_legacy.entity.shifu.util.ShifuMessageKeys
@@ -19,6 +21,7 @@ import dev.echoellet.dragonfist_legacy.generated.LangKeys
 import dev.echoellet.dragonfist_legacy.platform.registration.DeferredAttributeSupplier
 import dev.echoellet.dragonfist_legacy.registry.entries.item.ModItems
 import dev.echoellet.dragonfist_legacy.util.enchanted
+import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerBossEvent
 import net.minecraft.server.level.ServerLevel
@@ -79,7 +82,7 @@ class ShifuEntity(
                     add(Attributes.ARMOR, 30.0)
                     add(Attributes.ARMOR_TOUGHNESS, 3.0)
                     add(Attributes.ATTACK_DAMAGE, 6.0)
-                    add(Attributes.FOLLOW_RANGE, 48.0)
+                    add(Attributes.FOLLOW_RANGE, 32.0)
                     add(Attributes.KNOCKBACK_RESISTANCE, 0.6)
                     add(Attributes.ATTACK_KNOCKBACK, 1.0)
                     add(Attributes.STEP_HEIGHT, 6.0)
@@ -108,6 +111,7 @@ class ShifuEntity(
     private val playerTrainingPolicy = ShifuPlayerTrainingPolicy(this)
     private val deathHandler = ShifuDeathHandler(this)
     private val platerTrainingIntroManager = ShifuPlayerTrainingIntroManager(serverBossEvent = { bossEvent })
+    private val homeTracker = ShifuHomeTracker(this)
 
     private var bossEvent: ServerBossEvent = ServerBossEvent(
         Component.translatable(LangKeys.ENTITY_SHIFU_BOSS),
@@ -149,6 +153,7 @@ class ShifuEntity(
         val goals: List<Goal> = listOf(
             MeleeAttackGoal(this, 1.2, true),
             MoveBackToVillageGoal(this, 0.6, false),
+            GoHomeAtNightGoal(this, 16.0, homePos = { homeTracker.homePos }),
             LookAtPlayerGoal(this, Player::class.java, 10.0f),
             LookAtPlayerGoal(this, AbstractVillager::class.java, 4.0f),
             OpenDoorGoal(this, true),
@@ -263,11 +268,22 @@ class ShifuEntity(
         spawnType: MobSpawnType,
         spawnGroupData: SpawnGroupData?
     ): SpawnGroupData? {
+        homeTracker.onFinalizeSpawn()
         if (MinecraftMod.EPIC_FIGHT.isLoaded()) {
             equipEpicFightGloves()
         }
 
         return super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData)
+    }
+
+    override fun readAdditionalSaveData(compound: CompoundTag) {
+        super.readAdditionalSaveData(compound)
+        homeTracker.loadNbt(compound)
+    }
+
+    override fun addAdditionalSaveData(compound: CompoundTag) {
+        super.addAdditionalSaveData(compound)
+        homeTracker.saveNbt(compound)
     }
 
     private fun equipEpicFightGloves() {
