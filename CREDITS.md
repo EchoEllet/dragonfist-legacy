@@ -7,11 +7,15 @@
 
 ## Contributors
 
+Alphabetical (A–Z) summary of contributors.
+
 - [EchoEllet](https://github.com/EchoEllet/)
   - Programming, internal API design, and multi-platform architecture
 - [K.Overlegen]
   - Bandit skins
-  - Management, ideas, and roadmap
+  - Management, and ideas
+- [Rafa]
+  - Structures
 
 ## Other
 
@@ -33,3 +37,4 @@
     * [Epic Fight: Skill Tree addon](https://github.com/Epic-Fight/epicskills)
 
 [K.Overlegen]: https://www.youtube.com/@k.overlegen
+[Rafa]: https://discord.com/users/217770802840338433

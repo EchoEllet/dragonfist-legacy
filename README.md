@@ -34,7 +34,13 @@ as Epic Fight does not support Fabric yet.
 
 ## Credits
 
-See [CREDITS](https://github.com/EchoEllet/dragonfist-legacy/blob/main/CREDITS.md) for full attribution.
+This is a short, alphabetical (A–Z) summary of contributors.
+
+- [EchoEllet](https://github.com/EchoEllet) — Epic Programming
+- [K.Overlegen](https://www.youtube.com/@k.overlegen) — Epic Skins
+- [Rafa](https://discord.com/users/217770802840338433) — Epic Structures ([CurseForge Account](https://www.curseforge.com/members/rkc/projects))
+
+See [CREDITS](https://github.com/EchoEllet/dragonfist-legacy/blob/main/CREDITS.md) for full attribution and detailed credits.
 
 ## Disclaimer
 
