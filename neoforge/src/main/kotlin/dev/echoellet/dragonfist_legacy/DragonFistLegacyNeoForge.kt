@@ -1,8 +1,10 @@
 package dev.echoellet.dragonfist_legacy
 
 import dev.echoellet.dragonfist_legacy.client.DragonFistLegacyNeoForgeClient
+import dev.echoellet.dragonfist_legacy.compatibility.IntegrationEntrypoint
 import dev.echoellet.dragonfist_legacy.compatibility.MinecraftMod
-import dev.echoellet.dragonfist_legacy.compatibility.epicskills.EpicSkillsMod
+import dev.echoellet.dragonfist_legacy.compatibility.epicfight.EpicFightModEntrypoint
+import dev.echoellet.dragonfist_legacy.compatibility.epicskills.EpicSkillsModEntrypoint
 import dev.echoellet.dragonfist_legacy.platform.NeoForgeModPlatform
 import dev.echoellet.dragonfist_legacy.platform.registration.NeoForgeDeferredRegistrar
 import dev.echoellet.dragonfist_legacy.platform.registration.NeoForgeEntityAttributeRegistrar
@@ -35,16 +37,23 @@ class DragonFistLegacyNeoForge(modEventBus: IEventBus, modContainer: ModContaine
             )
         )
         modContainer.registerConfig(ModConfig.Type.SERVER, Config.SPEC)
-        registerModCompatibilities()
+        registerExternalModIntegrations()
 
         if (FMLLoader.getDist().isClient) {
             loadClient(modEventBus, modContainer)
         }
     }
 
-    private fun registerModCompatibilities() {
-        if (MinecraftMod.EPIC_SKILLS.isLoaded()) {
-            EpicSkillsMod.registerCompatibility()
+    private fun registerExternalModIntegrations() {
+        for (mod in MinecraftMod.entries) {
+            if (!mod.isLoaded()) {
+                continue
+            }
+            val integration: IntegrationEntrypoint = when (mod) {
+                MinecraftMod.EPIC_FIGHT -> EpicFightModEntrypoint()
+                MinecraftMod.EPIC_SKILLS -> EpicSkillsModEntrypoint()
+            }
+            integration.onInitialize()
         }
     }
 

@@ -1,7 +1,6 @@
 package dev.echoellet.dragonfist_legacy.entity.shifu
 
-import dev.echoellet.dragonfist_legacy.compatibility.MinecraftMod
-import dev.echoellet.dragonfist_legacy.compatibility.epicfight.EpicFightModItems
+import dev.echoellet.dragonfist_legacy.api.event.ModEvents
 import dev.echoellet.dragonfist_legacy.entity.bandit.BanditEntity
 import dev.echoellet.dragonfist_legacy.entity.bandit.rank.leader.BanditLeaderEntity
 import dev.echoellet.dragonfist_legacy.entity.bandit.rank.ruler.BanditRulerEntity
@@ -20,7 +19,6 @@ import dev.echoellet.dragonfist_legacy.entity.shifu.util.ShifuSoundEvents
 import dev.echoellet.dragonfist_legacy.generated.LangKeys
 import dev.echoellet.dragonfist_legacy.platform.registration.DeferredAttributeSupplier
 import dev.echoellet.dragonfist_legacy.registry.entries.item.ModItems
-import dev.echoellet.dragonfist_legacy.util.enchanted
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerBossEvent
@@ -28,7 +26,6 @@ import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.world.BossEvent
-import net.minecraft.world.Difficulty
 import net.minecraft.world.DifficultyInstance
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
@@ -36,7 +33,6 @@ import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.damagesource.DamageTypes
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
-import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.MobSpawnType
 import net.minecraft.world.entity.PathfinderMob
@@ -57,10 +53,8 @@ import net.minecraft.world.entity.boss.wither.WitherBoss
 import net.minecraft.world.entity.monster.Monster
 import net.minecraft.world.entity.npc.AbstractVillager
 import net.minecraft.world.entity.player.Player
-import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
-import net.minecraft.world.item.enchantment.Enchantments
 import net.minecraft.world.level.Explosion
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.ServerLevelAccessor
@@ -279,9 +273,7 @@ class ShifuEntity(
         spawnGroupData: SpawnGroupData?
     ): SpawnGroupData? {
         homeTracker.setCurrentPosition()
-        if (MinecraftMod.EPIC_FIGHT.isLoaded()) {
-            equipEpicFightGloves()
-        }
+        ModEvents.Shifu.ON_FINALIZE_SPAWN.invoke(ModEvents.FinalizeSpawn(this))
 
         return super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData)
     }
@@ -294,24 +286,6 @@ class ShifuEntity(
     override fun addAdditionalSaveData(compound: CompoundTag) {
         super.addAdditionalSaveData(compound)
         homeTracker.saveNbt(compound)
-    }
-
-    private fun equipEpicFightGloves() {
-        val gloveItem: Item = EpicFightModItems.GLOVE.asItem()
-
-        fun gloveStack(): ItemStack {
-            val stack = ItemStack(gloveItem)
-            val level = level()
-
-            val sharpnessLevel = when (level.difficulty == Difficulty.HARD) {
-                true -> 5
-                false -> 4
-            }
-            return stack.enchanted(Enchantments.SHARPNESS, sharpnessLevel, level().registryAccess())
-        }
-
-        this.setItemSlot(EquipmentSlot.MAINHAND, gloveStack())
-        this.setItemSlot(EquipmentSlot.OFFHAND, gloveStack())
     }
 
     override fun ignoreExplosion(explosion: Explosion): Boolean = true

@@ -124,8 +124,8 @@ class ShifuInteractionHandler(private val entity: ShifuEntity) {
         // when attempting to trade during combat with Shifu. On the client, Shifu's target is null, and only the server
         // has the correct state. This is a known issue, but fixing it adds little value, so it is accepted as-is.
 
-        ModEvents.SHIFU_TRADE_SUCCESS.invoke(
-            ModEvents.ShifuTradeSuccess(
+        ModEvents.Shifu.TRADE_SUCCESS.invoke(
+            ModEvents.Shifu.TradeSuccess(
                 player, result, level, stackInMainHand, isClientSide, isRaining
             )
         )
