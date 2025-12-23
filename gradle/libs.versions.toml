@@ -1,5 +1,5 @@
 [versions]
-mod = "0.0.5"
+mod = "0.0.6"
 java = "21"
 
 # Kotlin StdLib + Reflect, Serialization and Coroutines are bundled with "Kotlin for Forge" mod dependency.

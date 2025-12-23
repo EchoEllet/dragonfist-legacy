@@ -10,14 +10,17 @@ import dev.echoellet.dragonfist_legacy.entity.bandit.util.BanditSound
 import dev.echoellet.dragonfist_legacy.entity.bandit.util.BanditSoundEvents
 import dev.echoellet.dragonfist_legacy.entity.common.EntityPassiveHpRegenManager
 import dev.echoellet.dragonfist_legacy.entity.common.MobFocusManager
-import dev.echoellet.dragonfist_legacy.entity.common.MobSpawnTypeManager
+import dev.echoellet.dragonfist_legacy.entity.common.MobHomeTracker
+import dev.echoellet.dragonfist_legacy.entity.common.MobSpawnReasonManager
 import dev.echoellet.dragonfist_legacy.entity.common.gender.EntityGenderHandler
 import dev.echoellet.dragonfist_legacy.entity.common.gender.Gender
 import dev.echoellet.dragonfist_legacy.entity.common.goals.ApproachAndHoldPositionGoal
+import dev.echoellet.dragonfist_legacy.entity.common.goals.GoBackToHomeGoal
 import dev.echoellet.dragonfist_legacy.entity.common.goals.TurnBasedTargetSelectionGoal
 import dev.echoellet.dragonfist_legacy.entity.knight.KnightEntity
 import dev.echoellet.dragonfist_legacy.entity.shifu.ShifuEntity
 import dev.echoellet.dragonfist_legacy.generated.LangKeys
+import dev.echoellet.dragonfist_legacy.platform.ModPlatformProvider
 import dev.echoellet.dragonfist_legacy.platform.registration.DeferredAttributeSupplier
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component
@@ -99,7 +102,7 @@ abstract class BanditEntity(
     /**
      * IMPORTANT: This must be created in [defineSynchedData] (similar to [EntityGenderHandler]).
      */
-    private lateinit var spawnTypeManager: MobSpawnTypeManager
+    private lateinit var spawnReasonManager: MobSpawnReasonManager
 
     private val passiveHpRegenManager = EntityPassiveHpRegenManager(this, isInCombat = ::isInCombat)
     private val armorEquipper = BanditArmorEquipper(this)
@@ -107,6 +110,9 @@ abstract class BanditEntity(
     private val scrollDropper = BanditScrollDropper(this)
     private val lootDropper = BanditLootDropper(this)
     private val focusManager = MobFocusManager(this)
+    private val homeTracker = MobHomeTracker(this, storeOriginalSpawnPos = false)
+
+    private fun hasHome() = spawnedInStructure()
 
     fun getPendingTarget(): LivingEntity? {
         return focusManager.getTarget()
@@ -148,6 +154,9 @@ abstract class BanditEntity(
     private fun isSpawnType(type: MobSpawnType): Boolean {
         val spawnType = mobSpawnType
         if (spawnType == null) {
+            if (ModPlatformProvider.get().isDevelopmentEnvironment()) {
+                checkNotNull(mobSpawnType) { "Failed to compare the MobSpawnType as it's null" }
+            }
             // TODO: Investigate why this happens in the production side
             DragonFistLegacy.LOGGER.error("Failed to compare the MobSpawnType as it's null.")
             return false
@@ -170,8 +179,6 @@ abstract class BanditEntity(
     }
 
     private fun mustBanditSeePlayerToTarget(): Boolean = getRank().isCommon && spawnedNaturally()
-
-    private fun canRoamFreely(): Boolean = !spawnedInStructure()
 
     override fun removeWhenFarAway(distanceToClosestPlayer: Double): Boolean = !isPersistentEntity()
 
@@ -198,18 +205,21 @@ abstract class BanditEntity(
                 stopDistance = 12.0,
                 approachTarget = { getPendingTarget() }
             ),
-            object : FollowMobGoal(this, 1.0, 10.0f, 5.0f) {
-                override fun canUse(): Boolean {
-                    return super.canUse() && canRoamFreely()
-                }
-            },
-            object : WaterAvoidingRandomStrollGoal(this, 0.6) {
-                override fun canUse(): Boolean {
-                    return super.canUse() && canRoamFreely()
-                }
-            },
+            WaterAvoidingRandomStrollGoal(this, 0.6),
+            FollowMobGoal(this, 1.0, 10.0f, 5.0f),
+            GoBackToHomeGoal(
+                mob = this,
+                nearHomeDistance = 64.0,
+                speed = 1.0,
+                homePos = {
+                    check(hasHome()) { "The bandits that are not spawned in a structure do not have a home." }
+                    homeTracker.homePos
+                },
+                shouldGoHome = { hasHome() },
+            ),
             RandomLookAroundGoal(this),
             FloatGoal(this),
+            // TODO: Allow them to actually break all doors (the current behavior seems to be broken or not working?)
             BreakDoorGoal(this) { _ -> true },
             OpenDoorGoal(this, false),
         )
@@ -255,19 +265,34 @@ abstract class BanditEntity(
         genderHandler = EntityGenderHandler(this, GENDER_ACCESSOR)
         genderHandler.defineDefault(builder)
 
-        spawnTypeManager = MobSpawnTypeManager(this)
+        spawnReasonManager = MobSpawnReasonManager(this)
     }
 
     override fun addAdditionalSaveData(compound: CompoundTag) {
         super.addAdditionalSaveData(compound)
         genderHandler.saveToNBT(compound)
-        spawnTypeManager.saveNbt(compound)
+        spawnReasonManager.saveNbt(compound)
+        if (hasHome()) {
+            homeTracker.saveNbt(compound)
+        }
     }
 
     override fun readAdditionalSaveData(compound: CompoundTag) {
         super.readAdditionalSaveData(compound)
         genderHandler.loadFromNBT(compound)
-        spawnTypeManager.loadNbt(compound)
+        spawnReasonManager.loadNbt(compound)
+
+        /**
+         * **HACK:** When the entity is spawned via `/summon` command,
+         * Minecraft calls [readAdditionalSaveData] before [finalizeSpawn],
+         * and therefore the spawn reason is unknown, since it's only available in [finalizeSpawn].
+         *
+         * This shouldn't be an issue, because the spawn position data is meant primarily
+         * for entities spawned inside a structure, where this issue will never occur.
+         */
+        if (spawnReasonManager.isSpawnReasonKnown() && hasHome()) {
+            homeTracker.loadNbt(compound)
+        }
     }
 
     val gender: Gender by lazy { genderHandler.getGender() }
@@ -275,7 +300,7 @@ abstract class BanditEntity(
     // Avoid calling this "spawnType" to avoid conflicts with Forge-like platforms,
     // as they patch vanilla classes directly (i.e., they already add "spawnType").
     private val mobSpawnType: MobSpawnType?
-        get() = spawnTypeManager.getMobSpawnType()
+        get() = spawnReasonManager.getMobSpawnReason()
 
     /**
      * IMPORTANT for project maintainers: Keep this lazy. Otherwise, [gender] will always be the default,
@@ -293,7 +318,13 @@ abstract class BanditEntity(
         genderHandler.setRandomGender()
         armorEquipper.mayEquipRandomArmorSet()
         weaponEquipper.equipRandomWeapon()
-        spawnTypeManager.onFinalizeSpawn(spawnType)
+        spawnReasonManager.setSpawnReason(spawnType)
+        if (hasHome()) {
+            /**
+             * **Important:** Must be called after [MobSpawnReasonManager.setSpawnReason], otherwise [hasHome] will throw an error.
+             */
+            homeTracker.setCurrentPosition()
+        }
 
         return super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData)
     }

@@ -13,6 +13,7 @@ import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.SpawnEggItem
 import net.neoforged.fml.ModList
+import net.neoforged.fml.loading.FMLLoader
 import net.neoforged.neoforge.common.DeferredSpawnEggItem
 
 class NeoForgeModPlatform(
@@ -20,6 +21,10 @@ class NeoForgeModPlatform(
     private val entityAttributeRegistrar: NeoForgeEntityAttributeRegistrar,
     private val entitySpawnRegistrar: NeoForgeEntitySpawnRegistrar,
 ) : ModPlatform {
+    override fun isDevelopmentEnvironment(): Boolean {
+        return !FMLLoader.isProduction()
+    }
+
     override fun isModLoaded(id: String): Boolean {
         return ModList.get().isLoaded(id)
     }

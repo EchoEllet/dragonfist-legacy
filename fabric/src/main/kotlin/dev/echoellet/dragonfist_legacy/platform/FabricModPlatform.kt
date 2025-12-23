@@ -13,6 +13,10 @@ class FabricModPlatform(
     private val entityAttributeRegistrar: FabricEntityAttributeRegistrar,
     private val entitySpawnRegistrar: FabricEntitySpawnRegistrar,
 ) : ModPlatform {
+    override fun isDevelopmentEnvironment(): Boolean {
+        return FabricLoader.getInstance().isDevelopmentEnvironment
+    }
+
     override fun isModLoaded(id: String): Boolean {
         return FabricLoader.getInstance().isModLoaded(id)
     }

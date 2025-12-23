@@ -7,12 +7,12 @@ import dev.echoellet.dragonfist_legacy.entity.bandit.rank.leader.BanditLeaderEnt
 import dev.echoellet.dragonfist_legacy.entity.bandit.rank.ruler.BanditRulerEntity
 import dev.echoellet.dragonfist_legacy.entity.common.EntityPassiveHpRegenManager
 import dev.echoellet.dragonfist_legacy.entity.common.MobFocusManager
-import dev.echoellet.dragonfist_legacy.entity.common.goals.GoHomeAtNightGoal
+import dev.echoellet.dragonfist_legacy.entity.common.MobHomeTracker
+import dev.echoellet.dragonfist_legacy.entity.common.goals.GoBackToHomeGoal
 import dev.echoellet.dragonfist_legacy.entity.shifu.combat.ShifuMercifulHurtByTargetGoal
 import dev.echoellet.dragonfist_legacy.entity.shifu.combat.ShifuPlayerTrainingIntroManager
 import dev.echoellet.dragonfist_legacy.entity.shifu.combat.ShifuPlayerTrainingPolicy
 import dev.echoellet.dragonfist_legacy.entity.shifu.handlers.ShifuDeathHandler
-import dev.echoellet.dragonfist_legacy.entity.shifu.handlers.ShifuHomeTracker
 import dev.echoellet.dragonfist_legacy.entity.shifu.handlers.ShifuInteractionHandler
 import dev.echoellet.dragonfist_legacy.entity.shifu.handlers.ShifuRainReactionManager
 import dev.echoellet.dragonfist_legacy.entity.shifu.util.ShifuMessageKeys
@@ -111,7 +111,7 @@ class ShifuEntity(
     private val playerTrainingPolicy = ShifuPlayerTrainingPolicy(this)
     private val deathHandler = ShifuDeathHandler(this)
     private val platerTrainingIntroManager = ShifuPlayerTrainingIntroManager(serverBossEvent = { bossEvent })
-    private val homeTracker = ShifuHomeTracker(this)
+    private val homeTracker = MobHomeTracker(this, storeOriginalSpawnPos = true)
 
     private var bossEvent: ServerBossEvent = ServerBossEvent(
         Component.translatable(LangKeys.ENTITY_SHIFU_BOSS),
@@ -153,7 +153,17 @@ class ShifuEntity(
         val goals: List<Goal> = listOf(
             MeleeAttackGoal(this, 1.2, true),
             MoveBackToVillageGoal(this, 0.6, false),
-            GoHomeAtNightGoal(this, 16.0, homePos = { homeTracker.homePos }),
+            GoBackToHomeGoal(
+                mob = this,
+                nearHomeDistance = 16.0,
+                speed = 0.6,
+                homePos = { homeTracker.homePos },
+                shouldGoHome = {
+                    val level = level()
+                    val isNight = level.isNight || level.dayTime % 24000L >= 12000L - 2000L
+                    isNight
+                },
+            ),
             LookAtPlayerGoal(this, Player::class.java, 10.0f),
             LookAtPlayerGoal(this, AbstractVillager::class.java, 4.0f),
             OpenDoorGoal(this, true),
@@ -268,7 +278,7 @@ class ShifuEntity(
         spawnType: MobSpawnType,
         spawnGroupData: SpawnGroupData?
     ): SpawnGroupData? {
-        homeTracker.onFinalizeSpawn()
+        homeTracker.setCurrentPosition()
         if (MinecraftMod.EPIC_FIGHT.isLoaded()) {
             equipEpicFightGloves()
         }

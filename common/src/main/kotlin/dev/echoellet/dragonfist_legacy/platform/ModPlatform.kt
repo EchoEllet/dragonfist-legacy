@@ -11,6 +11,8 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.SpawnEggItem
 
 interface ModPlatform {
+    fun isDevelopmentEnvironment(): Boolean
+
     fun isModLoaded(id: String): Boolean
 
     fun deferredRegistrar(): DeferredRegistrar

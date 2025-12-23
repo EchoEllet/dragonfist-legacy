@@ -3,24 +3,29 @@ package dev.echoellet.dragonfist_legacy.entity.common.goals
 import net.minecraft.core.BlockPos
 import net.minecraft.world.entity.Mob
 import net.minecraft.world.entity.ai.goal.Goal
-import net.minecraft.world.level.Level
 import java.util.*
 
-class GoHomeAtNightGoal(
+class GoBackToHomeGoal(
     private val mob: Mob,
     private val nearHomeDistance: Double,
+    private val speed: Double,
     private val homePos: () -> BlockPos,
+    private val shouldGoHome: () -> Boolean,
 ) : Goal() {
     init {
         flags = EnumSet.of(Flag.MOVE)
     }
 
     override fun canUse(): Boolean {
-        val level: Level = mob.level()
-        val isNight = level.isNight || level.dayTime % 24000L >= 12000L - 2000L
+        if (!shouldGoHome()) {
+            /**
+             * **Important:** Call [shouldGoHome] before [isNearHome], since [homePos]
+             * may throw an exception if [shouldGoHome] is `false`.
+             */
+            return false
+        }
         val hasNoTarget = mob.target == null
-
-        return isNight && hasNoTarget && !isAtHome()
+        return hasNoTarget && !isNearHome()
     }
 
     override fun canContinueToUse(): Boolean {
@@ -39,10 +44,10 @@ class GoHomeAtNightGoal(
 
     private fun navigate() {
         val pos = homePos()
-        mob.navigation.moveTo(pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble(), 1.0)
+        mob.navigation.moveTo(pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble(), speed)
     }
 
-    private fun isAtHome(): Boolean {
+    private fun isNearHome(): Boolean {
         return mob.blockPosition().closerThan(homePos(), nearHomeDistance)
     }
 }

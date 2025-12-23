@@ -1,7 +1,11 @@
 package dev.echoellet.dragonfist_legacy.entity.common
 
+import dev.echoellet.dragonfist_legacy.entity.common.EntityPassiveHpRegenManager.Companion.HEAL_PER_INTERVAL
+import dev.echoellet.dragonfist_legacy.entity.common.EntityPassiveHpRegenManager.Companion.TICKS_BETWEEN_HEAL
 import dev.echoellet.dragonfist_legacy.util.secondsToTicks
 import net.minecraft.world.entity.LivingEntity
+
+// TODO: Refactor to be vanilla [Goal] ?
 
 class EntityPassiveHpRegenManager(
     private val entity: LivingEntity,

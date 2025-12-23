@@ -2,6 +2,7 @@ package dev.echoellet.dragonfist_legacy.entity.knight
 
 import dev.echoellet.dragonfist_legacy.entity.bandit.BanditEntity
 import dev.echoellet.dragonfist_legacy.entity.common.EntityPassiveHpRegenManager
+import dev.echoellet.dragonfist_legacy.entity.common.MobHomeTracker
 import dev.echoellet.dragonfist_legacy.entity.common.gender.EntityGenderHandler
 import dev.echoellet.dragonfist_legacy.entity.common.gender.Gender
 import dev.echoellet.dragonfist_legacy.entity.shifu.ShifuEntity
@@ -75,7 +76,8 @@ class KnightEntity(
     private lateinit var genderHandler: EntityGenderHandler
     val gender: Gender by lazy { genderHandler.getGender() }
 
-    val weaponEquipper = KnightWeaponEquipper(this)
+    private val weaponEquipper = KnightWeaponEquipper(this)
+    private val homeTracker = MobHomeTracker(this, storeOriginalSpawnPos = false)
 
     private fun isInCombat(): Boolean = target?.isAlive == true
 
@@ -174,6 +176,7 @@ class KnightEntity(
     ): SpawnGroupData? {
         genderHandler.setRandomGender()
         weaponEquipper.equipRandomWeapon()
+        homeTracker.setCurrentPosition()
 
         return super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData)
     }
@@ -201,10 +204,12 @@ class KnightEntity(
     override fun readAdditionalSaveData(compound: CompoundTag) {
         super.readAdditionalSaveData(compound)
         genderHandler.loadFromNBT(compound)
+        homeTracker.loadNbt(compound)
     }
 
     override fun addAdditionalSaveData(compound: CompoundTag) {
         super.addAdditionalSaveData(compound)
         genderHandler.saveToNBT(compound)
+        homeTracker.saveNbt(compound)
     }
 }

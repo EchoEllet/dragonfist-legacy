@@ -85,8 +85,9 @@ dependencies {
     implementation(libs.epicfight.neoforge)
     implementation(libs.epicskills.neoforge)
 
-    localRuntime(libs.brutualbosses)
-    localRuntime(libs.cupboard)
+    // Uncomment for in-game test in development environment
+//    localRuntime(libs.brutualbosses)
+//    localRuntime(libs.cupboard)
 }
 
 tasks.processResources {
