@@ -1,6 +1,6 @@
 package dev.echoellet.dragonfist_legacy.entity.common.weapon
 
-import dev.echoellet.dragonfist_legacy.compatibility.epicfight.EpicFightMod
+import dev.echoellet.dragonfist_legacy.compatibility.epicfight.EpicFightModItems
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.Items
 
@@ -67,12 +67,12 @@ data class WeaponItems(
 )
 
 object WeaponItemsResolver {
-    private fun epicFightDualWield(itemId: EpicFightMod.ItemId): WeaponItems {
+    private fun epicFightDualWield(itemId: EpicFightModItems.ItemId): WeaponItems {
         val item = itemId.asItem()
         return WeaponItems(item, item)
     }
 
-    private fun epicFightSingleHand(itemId: EpicFightMod.ItemId): WeaponItems =
+    private fun epicFightSingleHand(itemId: EpicFightModItems.ItemId): WeaponItems =
         WeaponItems(itemId.asItem(), null)
 
     private fun dualWield(item: Item): WeaponItems =
@@ -101,64 +101,64 @@ object WeaponItemsResolver {
      * @return [WeaponItems] containing main hand and offhand weapons.
      */
     fun resolve(loadout: WeaponLoadout): WeaponItems = when (loadout) {
-        WeaponLoadout.EpicFight.TwoBokken -> epicFightDualWield(EpicFightMod.Items.BOKKEN)
+        WeaponLoadout.EpicFight.TwoBokken -> epicFightDualWield(EpicFightModItems.BOKKEN)
         is WeaponLoadout.EpicFight.Daggers -> epicFightDualWield(
             when (loadout.tier) {
-                WeaponTier.Wooden -> EpicFightMod.Items.Daggers.WOODEN
-                WeaponTier.Stone -> EpicFightMod.Items.Daggers.STONE
-                WeaponTier.Golden -> EpicFightMod.Items.Daggers.GOLDEN
-                WeaponTier.Iron -> EpicFightMod.Items.Daggers.IRON
-                WeaponTier.Diamond -> EpicFightMod.Items.Daggers.DIAMOND
-                WeaponTier.Netherite -> EpicFightMod.Items.Daggers.NETHERITE
+                WeaponTier.Wooden -> EpicFightModItems.Daggers.WOODEN
+                WeaponTier.Stone -> EpicFightModItems.Daggers.STONE
+                WeaponTier.Golden -> EpicFightModItems.Daggers.GOLDEN
+                WeaponTier.Iron -> EpicFightModItems.Daggers.IRON
+                WeaponTier.Diamond -> EpicFightModItems.Daggers.DIAMOND
+                WeaponTier.Netherite -> EpicFightModItems.Daggers.NETHERITE
             }
         )
 
-        WeaponLoadout.EpicFight.Gloves -> epicFightDualWield(EpicFightMod.Items.GLOVE)
+        WeaponLoadout.EpicFight.Gloves -> epicFightDualWield(EpicFightModItems.GLOVE)
         is WeaponLoadout.EpicFight.Greatsword -> epicFightSingleHand(
             when (loadout.tier) {
-                WeaponTier.Wooden -> EpicFightMod.Items.GreatSword.WOODEN
-                WeaponTier.Stone -> EpicFightMod.Items.GreatSword.STONE
-                WeaponTier.Golden -> EpicFightMod.Items.GreatSword.GOLDEN
-                WeaponTier.Iron -> EpicFightMod.Items.GreatSword.IRON
-                WeaponTier.Diamond -> EpicFightMod.Items.GreatSword.DIAMOND
-                WeaponTier.Netherite -> EpicFightMod.Items.GreatSword.NETHERITE
+                WeaponTier.Wooden -> EpicFightModItems.GreatSword.WOODEN
+                WeaponTier.Stone -> EpicFightModItems.GreatSword.STONE
+                WeaponTier.Golden -> EpicFightModItems.GreatSword.GOLDEN
+                WeaponTier.Iron -> EpicFightModItems.GreatSword.IRON
+                WeaponTier.Diamond -> EpicFightModItems.GreatSword.DIAMOND
+                WeaponTier.Netherite -> EpicFightModItems.GreatSword.NETHERITE
             }
         )
 
         is WeaponLoadout.EpicFight.Longsword -> epicFightSingleHand(
             when (loadout.tier) {
-                WeaponTier.Wooden -> EpicFightMod.Items.Longsword.WOODEN
-                WeaponTier.Stone -> EpicFightMod.Items.Longsword.STONE
-                WeaponTier.Golden -> EpicFightMod.Items.Longsword.GOLDEN
-                WeaponTier.Iron -> EpicFightMod.Items.Longsword.IRON
-                WeaponTier.Diamond -> EpicFightMod.Items.Longsword.DIAMOND
-                WeaponTier.Netherite -> EpicFightMod.Items.Longsword.NETHERITE
+                WeaponTier.Wooden -> EpicFightModItems.Longsword.WOODEN
+                WeaponTier.Stone -> EpicFightModItems.Longsword.STONE
+                WeaponTier.Golden -> EpicFightModItems.Longsword.GOLDEN
+                WeaponTier.Iron -> EpicFightModItems.Longsword.IRON
+                WeaponTier.Diamond -> EpicFightModItems.Longsword.DIAMOND
+                WeaponTier.Netherite -> EpicFightModItems.Longsword.NETHERITE
             }
         ).maybeAddShield(loadout.withShield)
 
         is WeaponLoadout.EpicFight.Spear -> epicFightSingleHand(
             when (loadout.tier) {
-                WeaponTier.Wooden -> EpicFightMod.Items.Spear.WOODEN
-                WeaponTier.Stone -> EpicFightMod.Items.Spear.STONE
-                WeaponTier.Golden -> EpicFightMod.Items.Spear.GOLDEN
-                WeaponTier.Iron -> EpicFightMod.Items.Spear.IRON
-                WeaponTier.Diamond -> EpicFightMod.Items.Spear.DIAMOND
-                WeaponTier.Netherite -> EpicFightMod.Items.Spear.NETHERITE
+                WeaponTier.Wooden -> EpicFightModItems.Spear.WOODEN
+                WeaponTier.Stone -> EpicFightModItems.Spear.STONE
+                WeaponTier.Golden -> EpicFightModItems.Spear.GOLDEN
+                WeaponTier.Iron -> EpicFightModItems.Spear.IRON
+                WeaponTier.Diamond -> EpicFightModItems.Spear.DIAMOND
+                WeaponTier.Netherite -> EpicFightModItems.Spear.NETHERITE
             }
         ).maybeAddShield(loadout.withShield)
 
         is WeaponLoadout.EpicFight.Tachi -> epicFightSingleHand(
             when (loadout.tier) {
-                WeaponTier.Wooden -> EpicFightMod.Items.Tachi.WOODEN
-                WeaponTier.Stone -> EpicFightMod.Items.Tachi.STONE
-                WeaponTier.Golden -> EpicFightMod.Items.Tachi.GOLDEN
-                WeaponTier.Iron -> EpicFightMod.Items.Tachi.IRON
-                WeaponTier.Diamond -> EpicFightMod.Items.Tachi.DIAMOND
-                WeaponTier.Netherite -> EpicFightMod.Items.Tachi.NETHERITE
+                WeaponTier.Wooden -> EpicFightModItems.Tachi.WOODEN
+                WeaponTier.Stone -> EpicFightModItems.Tachi.STONE
+                WeaponTier.Golden -> EpicFightModItems.Tachi.GOLDEN
+                WeaponTier.Iron -> EpicFightModItems.Tachi.IRON
+                WeaponTier.Diamond -> EpicFightModItems.Tachi.DIAMOND
+                WeaponTier.Netherite -> EpicFightModItems.Tachi.NETHERITE
             }
         )
 
-        WeaponLoadout.EpicFight.Uchigatana -> epicFightSingleHand(EpicFightMod.Items.UCHIGATANA)
+        WeaponLoadout.EpicFight.Uchigatana -> epicFightSingleHand(EpicFightModItems.UCHIGATANA)
         is WeaponLoadout.Vanilla.Axe -> singleHand(
             when (loadout.tier) {
                 WeaponTier.Wooden -> Items.WOODEN_AXE

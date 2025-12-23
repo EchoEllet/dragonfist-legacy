@@ -1,7 +1,7 @@
 package dev.echoellet.dragonfist_legacy.entity.bandit.handler
 
 import dev.echoellet.dragonfist_legacy.compatibility.MinecraftMod
-import dev.echoellet.dragonfist_legacy.compatibility.epicfight.EpicFightMod
+import dev.echoellet.dragonfist_legacy.compatibility.epicfight.EpicFightModItems
 import dev.echoellet.dragonfist_legacy.entity.bandit.BanditEntity
 import dev.echoellet.dragonfist_legacy.entity.bandit.rank.BanditRank
 import dev.echoellet.dragonfist_legacy.util.enchanted
@@ -104,9 +104,9 @@ class BanditArmorEquipper(private val entity: BanditEntity) {
             )
 
             ArmorSet.EpicFightStray -> ArmorSetItems(
-                helmet = EpicFightMod.Items.Stray.HAT.asItem(),
-                chestplate = EpicFightMod.Items.Stray.ROBE.asItem(),
-                leggings = EpicFightMod.Items.Stray.PANTS.asItem(),
+                helmet = EpicFightModItems.Stray.HAT.asItem(),
+                chestplate = EpicFightModItems.Stray.ROBE.asItem(),
+                leggings = EpicFightModItems.Stray.PANTS.asItem(),
                 boots = Items.LEATHER_BOOTS
             )
 
@@ -178,12 +178,13 @@ class BanditArmorEquipper(private val entity: BanditEntity) {
         val itemStack = ItemStack(item)
         val isHardDifficulty = entity.level().difficulty == Difficulty.HARD
 
-        return when(isHardDifficulty) {
+        return when (isHardDifficulty) {
             true -> itemStack.enchanted(
                 Enchantments.PROTECTION,
                 3,
                 entity.registryAccess()
             )
+
             false -> itemStack
         }
     }

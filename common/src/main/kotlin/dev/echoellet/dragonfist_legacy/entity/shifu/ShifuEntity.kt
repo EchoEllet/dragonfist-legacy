@@ -1,7 +1,7 @@
 package dev.echoellet.dragonfist_legacy.entity.shifu
 
 import dev.echoellet.dragonfist_legacy.compatibility.MinecraftMod
-import dev.echoellet.dragonfist_legacy.compatibility.epicfight.EpicFightMod
+import dev.echoellet.dragonfist_legacy.compatibility.epicfight.EpicFightModItems
 import dev.echoellet.dragonfist_legacy.entity.bandit.BanditEntity
 import dev.echoellet.dragonfist_legacy.entity.bandit.rank.leader.BanditLeaderEntity
 import dev.echoellet.dragonfist_legacy.entity.bandit.rank.ruler.BanditRulerEntity
@@ -297,7 +297,7 @@ class ShifuEntity(
     }
 
     private fun equipEpicFightGloves() {
-        val gloveItem: Item = EpicFightMod.Items.GLOVE.asItem()
+        val gloveItem: Item = EpicFightModItems.GLOVE.asItem()
 
         fun gloveStack(): ItemStack {
             val stack = ItemStack(gloveItem)
